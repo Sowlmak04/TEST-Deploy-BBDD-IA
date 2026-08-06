@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Actualizar</title></head>
+<body><p>Actualizando…</p>
+<script>
+(async()=>{if("serviceWorker"in navigator){const r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(x=>x.unregister()));}
+if("caches"in window){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)));}
+location.replace("./?updated="+Date.now());})();
+</script></body></html>

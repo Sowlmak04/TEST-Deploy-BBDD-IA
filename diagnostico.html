@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Diagnóstico de almacenamiento</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, sans-serif; }
+    body { max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.45; }
+    h1 { font-size: 1.5rem; }
+    .card { border: 1px solid #8885; border-radius: 12px; padding: 14px; margin: 12px 0; }
+    code, pre { overflow-wrap: anywhere; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border-bottom: 1px solid #8884; text-align: left; vertical-align: top; }
+    button, a.button {
+      display: inline-block; padding: 10px 14px; margin: 6px 4px 6px 0;
+      border-radius: 9px; border: 1px solid #8888; text-decoration: none; font: inherit;
+    }
+    .ok { font-weight: 700; }
+    .warning { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Diagnóstico de almacenamiento — Sprint 2.1</h1>
+  <p>Esta página no elimina ni modifica tus datos. Solo muestra qué existe en el almacenamiento de esta dirección.</p>
+
+  <div class="card">
+    <strong>Dirección exacta</strong>
+    <div id="location"></div>
+  </div>
+
+  <div class="card">
+    <strong>Resumen principal</strong>
+    <div id="summary"></div>
+  </div>
+
+  <div class="card">
+    <strong>Todas las claves encontradas</strong>
+    <div id="keys"></div>
+  </div>
+
+  <button id="download">Descargar diagnóstico JSON</button>
+  <a class="button" href="./">Volver a la aplicación</a>
+
+<script>
+const MAIN_KEYS = [
+  "inv_series_pendientes",
+  "inv_peliculas_pendientes",
+  "inv_series_vistas",
+  "inv_peliculas_vistas"
+];
+
+function inspectValue(raw) {
+  if (raw === null) return { type: "ausente", count: 0, preview: "" };
+  try {
+    const value = JSON.parse(raw);
+    if (Array.isArray(value)) {
+      return { type: "array", count: value.length, preview: JSON.stringify(value.slice(0, 2)) };
+    }
+    return { type: typeof value, count: null, preview: JSON.stringify(value).slice(0, 300) };
+  } catch {
+    return { type: "texto", count: null, preview: String(raw).slice(0, 300) };
+  }
+}
+
+const report = {
+  generatedAt: new Date().toISOString(),
+  origin: location.origin,
+  href: location.href,
+  pathname: location.pathname,
+  standalone: matchMedia("(display-mode: standalone)").matches,
+  navigatorStandalone: Boolean(navigator.standalone),
+  schemaVersion: localStorage.getItem("inv_storage_schema_version"),
+  entries: []
+};
+
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const raw = localStorage.getItem(key);
+  report.entries.push({ key, raw, ...inspectValue(raw) });
+}
+report.entries.sort((a,b) => a.key.localeCompare(b.key));
+
+document.getElementById("location").innerHTML =
+  "<p><b>Origen:</b> <code>" + report.origin + "</code></p>" +
+  "<p><b>Ruta:</b> <code>" + report.pathname + "</code></p>" +
+  "<p><b>Modo app instalada:</b> " + (report.standalone || report.navigatorStandalone ? "sí" : "no") + "</p>" +
+  "<p><b>Versión del esquema:</b> " + (report.schemaVersion || "no registrada") + "</p>";
+
+const summaryRows = MAIN_KEYS.map(key => {
+  const found = report.entries.find(x => x.key === key);
+  const info = found || { type: "ausente", count: 0 };
+  return "<tr><td><code>" + key + "</code></td><td>" + info.type + "</td><td>" +
+    (info.count ?? "—") + "</td></tr>";
+}).join("");
+
+document.getElementById("summary").innerHTML =
+  "<table><thead><tr><th>Clave</th><th>Tipo</th><th>Elementos</th></tr></thead><tbody>" +
+  summaryRows + "</tbody></table>";
+
+document.getElementById("keys").innerHTML = report.entries.length
+  ? "<table><thead><tr><th>Clave</th><th>Tipo</th><th>Cantidad</th><th>Vista previa</th></tr></thead><tbody>" +
+    report.entries.map(item =>
+      "<tr><td><code>" + item.key.replaceAll("&","&amp;").replaceAll("<","&lt;") + "</code></td>" +
+      "<td>" + item.type + "</td><td>" + (item.count ?? "—") + "</td>" +
+      "<td><code>" + String(item.preview || "").replaceAll("&","&amp;").replaceAll("<","&lt;") + "</code></td></tr>"
+    ).join("") + "</tbody></table>"
+  : "<p class='warning'>No hay ninguna clave en localStorage para este origen.</p>";
+
+document.getElementById("download").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(report, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "diagnostico_almacenamiento_" + Date.now() + ".json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+</script>
+</body>
+</html>

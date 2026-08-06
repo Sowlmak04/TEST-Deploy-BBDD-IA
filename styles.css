@@ -1,0 +1,2151 @@
+:root{
+      --bg0:#0b1020;
+      --bg1:#0f1730;
+      --text:#e9edff;
+      --muted: rgba(233,237,255,.68);
+      --accent1:#7c5cff;
+      --accent2:#2ee9a6;
+
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 22px;
+      --radiusSm: 16px;
+      --speed: 240ms;
+      --stroke: rgba(255,255,255,.12);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(900px 520px at 85% 35%, rgba(46,233,166,.25), transparent 55%),
+        radial-gradient(700px 420px at 40% 95%, rgba(124,92,255,.18), transparent 65%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    .app{
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+      padding:24px 16px 40px;
+    }
+
+    .shell{
+      width:min(1060px, 100%);
+      display:grid;
+      gap:14px;
+    }
+
+    header{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:4px 0;
+    }
+
+    .tabs{
+      width:min(720px, 100%);
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      padding:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 12px 40px rgba(0,0,0,.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .tab{
+      position:relative;
+      border:0;
+      cursor:pointer;
+      color: rgba(233,237,255,.70);
+      background: transparent;
+      padding:14px 12px;
+      border-radius:999px;
+      font-weight:700;
+      letter-spacing:.2px;
+      transition: transform var(--speed) ease, color var(--speed) ease, background var(--speed) ease;
+      outline:none;
+      text-align:center;
+    }
+
+    .tab:hover{ transform: translateY(-1px); color: rgba(233,237,255,.90); }
+    .tab:active{ transform: translateY(0px) scale(.985); }
+
+    .tab[aria-selected="true"]{
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(46,233,166,.22));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+    }
+
+    .tab[aria-selected="true"]::after{
+      content:"";
+      position:absolute;
+      left:14px; right:14px;
+      bottom:-9px;
+      height:11px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-top:0;
+      border-radius:0 0 12px 12px;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .screens{
+      position:relative;
+      height: calc(100vh - 190px); /* ajusta si lo quieres más alto/bajo */
+      min-height: 560px;           /* asegura ~6 cards en desktop */
+      max-height: 760px;           /* evita panel gigante */
+    }
+    .screen{
+      position:absolute;
+      inset:0;
+      padding:18px 20px 24px;
+      opacity:0;
+      transform: translateY(10px);
+      pointer-events:none;
+      transition: opacity var(--speed) ease, transform var(--speed) ease;
+
+      overflow-y:auto;        /* 👈 scroll vertical */
+      scrollbar-width: thin;  /* Firefox */
+    }
+    
+    .screen::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .screen::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .screen::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .15);
+      border-radius: 10px;
+    }
+
+    .screen::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, .25);
+    }
+
+    .screen.active{
+      opacity:1;
+      transform: translateY(0px);
+      pointer-events:auto;
+    }
+
+    /* Menús */
+    .menu{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding-top:22px;
+      gap:22px;
+    }
+
+    .menuBtn{
+      width:min(520px, 92%);
+      padding:26px 22px;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      color:var(--text);
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform var(--speed) ease, background var(--speed) ease, border-color var(--speed) ease;
+      box-shadow: 0 15px 40px rgba(0,0,0,.35);
+      text-align:center;
+    }
+
+    .menuBtn:hover{
+      transform: translateY(-4px);
+      background: linear-gradient(145deg, rgba(124,92,255,.22), rgba(46,233,166,.16));
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .backRow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    
+    .backRow>.pill {
+      flex: 0 0 auto;
+    }
+    
+    .backTools {
+      flex: 1 1 auto;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+    
+    .backRow>.backBtn {
+      flex: 0 0 auto;
+      margin-left: auto;
+    }
+
+    .backBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(233,237,255,.82);
+      font-size:12.5px;
+      white-space:nowrap;
+    }
+
+    .empty{
+      margin-top:14px;
+      padding:18px;
+      border-radius: var(--radiusSm);
+      border:1px dashed rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+      color: rgba(233,237,255,.78);
+    }
+
+    /* Listas */
+    .listWrap{
+      display:grid;
+      gap:12px;
+      margin-top:10px;
+    }
+
+    .itemCard{
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      padding:14px 14px 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .itemTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .itemTitle{
+      font-weight:800;
+      letter-spacing:.2px;
+      margin:0;
+      font-size:16px;
+    }
+
+    .meta{
+      color: rgba(233,237,255,.72);
+      font-size:12.5px;
+      margin-top:8px;
+      line-height:1.35;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 10px;
+    }
+
+    .meta span{
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    
+    
+    .meta span.metaAvg {
+      font-weight: 900;
+    }
+
+    .meta span.myPlatformsMatch {
+      border-color: rgba(94, 214, 133, .30);
+      background: rgba(94, 214, 133, .07);
+      color: #baf2cc;
+      font-weight: 800;
+    }
+
+    .myPlatformsMatchTick {
+      padding: 0 !important;
+      border: 0 !important;
+      background: transparent !important;
+      color: #6ed995;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      vertical-align: 1px;
+    }
+
+    .notes{
+      margin-top:10px;
+      color: rgba(233,237,255,.72);
+      font-size:13px;
+      line-height:1.4;
+      white-space:pre-wrap;
+    }
+
+    /* Formularios */
+    .formCard{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      box-shadow: 0 12px 36px rgba(0,0,0,.28);
+      padding:16px;
+      display:grid;
+      gap:12px;
+    }
+
+    .formGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+
+    .field{
+      display:grid;
+      gap:6px;
+    }
+
+    label{
+      font-size:12.5px;
+      color: rgba(233,237,255,.78);
+    }
+
+    .req{ color: rgba(46,233,166,.95); font-weight:800; }
+
+    input, textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,15,30,.35);
+      color: var(--text);
+      padding:12px 12px;
+      outline:none;
+      transition: border-color var(--speed) ease, box-shadow var(--speed) ease;
+    }
+
+    textarea{
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus{
+      border-color: rgba(124,92,255,.55);
+      box-shadow: 0 0 0 3px rgba(124,92,255,.18);
+    }
+
+    .formActions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .formActions > div{
+      margin-left:auto;   /* 👈 mueve botones a la derecha */
+    }
+    
+    
+    .btnPrimary{
+      border:0;
+      cursor:pointer;
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:800;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(124,92,255,.75), rgba(46,233,166,.55));
+      box-shadow: 0 14px 36px rgba(0,0,0,.30);
+      transition: transform var(--speed) ease, filter var(--speed) ease;
+    }
+    .btnPrimary:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btnPrimary:active{ transform: translateY(0px) scale(.99); }
+
+    .msg{
+      font-size:12.5px;
+      color: rgba(233,237,255,.78);
+    }
+    .msg.error{ color: rgba(255,180,180,.95); }
+    .msg.ok{ color: rgba(46,233,166,.95); font-weight:700; }
+
+    /* Ratings (10 estrellas con medias) */
+    .ratingBlock{
+      grid-column: 1 / -1;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding:12px;
+      display:grid;
+      gap:10px;
+    }
+
+    .ratingHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .ratingName{
+      font-size:12.5px;
+      color: rgba(233,237,255,.82);
+      font-weight:800;
+    }
+
+    .ratingValue{
+      font-size:12.5px;
+      color: rgba(233,237,255,.82);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      min-width: 78px;
+      text-align:center;
+    }
+
+    .stars{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      user-select:none;
+    }
+
+    .starBtn{
+      width:30px;
+      height:30px;
+      border:0;
+      padding:0;
+      background: transparent;
+      cursor:pointer;
+      position:relative;
+    }
+
+    .starSvg{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+
+    .starOutline{
+      fill: rgba(233,237,255,.18);
+    }
+
+    .starFillFull{
+      fill: rgba(46,233,166,.92);
+      filter: drop-shadow(0 10px 16px rgba(46,233,166,.12));
+    }
+
+    .starFillHalf{
+      fill: rgba(46,233,166,.92);
+      filter: drop-shadow(0 10px 16px rgba(46,233,166,.10));
+    }
+
+    .stars:hover .starOutline{
+      fill: rgba(233,237,255,.22);
+    }
+
+    .twoNotes{
+      grid-column: 1 / -1;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+
+    @media (max-width: 720px){
+      .formGrid{ grid-template-columns: 1fr; }
+      .twoNotes{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px){
+      .tab{ padding:13px 10px; font-weight:750; }
+      .menu{ padding-top:18px; }
+      .starBtn{ width:28px; height:28px; }
+    }
+    
+    /* Cards clicables */
+.itemCard.clickable{
+  cursor:pointer;
+  transition: transform var(--speed) ease, border-color var(--speed) ease;
+}
+.itemCard.clickable:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.18);
+}
+.itemCard.clickable:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124,92,255,.22);
+}
+
+/* Modal detalle */
+.modalOverlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.modalOverlay.open{ display:flex; }
+
+.modalCard{
+  width: min(720px, 100%);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+  box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  overflow: hidden;
+}
+
+.modalHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.modalTitle{
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+.modalClose{
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  border-radius: 999px;
+  width: 40px;
+  height: 40px;
+  cursor:pointer;
+}
+
+.modalBody{
+  padding: 14px;
+  max-height: min(65vh, 520px); /* scrolleable */
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.modalBody::-webkit-scrollbar{ width: 8px; }
+.modalBody::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.15); border-radius: 10px; }
+.modalBody::-webkit-scrollbar-thumb:hover{ background: rgba(255,255,255,.25); }
+
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid rgba(255, 255, 255, .10);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modalBtn {
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .06);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform var(--speed) ease, background var(--speed) ease;
+}
+
+.modalBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, .10);
+}
+
+.modalBtnEdit {
+  border-color: rgba(124, 92, 255, .45);
+}
+
+.modalBtnSeen {
+  border-color: rgba(46, 233, 166, .45);
+}
+
+.modalBtnDelete {
+  border-color: rgba(255, 120, 120, .45);
+}
+
+body.modalOpen {
+  overflow: hidden;
+}
+
+/* Modal pequeño para confirmación */
+.modalCardSm {
+  width: min(520px, 100%);
+}
+
+/* Toast (mensaje de éxito temporal) */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%) translateY(12px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10050;
+  
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(20, 26, 50, .78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(233, 237, 255, .92);
+  font-weight: 800;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+.pager {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.pagerBtn {
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .06);
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 750;
+  min-width: 96px;
+  text-align: center;
+}
+
+.pagerBtn[disabled] {
+  opacity: .45;
+  cursor: default;
+}
+
+.pagerSelectWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+}
+
+.pagerSelect {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .06);
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-weight: 750;
+  outline: none;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pagerSelect:focus {
+  border-color: rgba(124, 92, 255, .55);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, .18);
+}
+
+@media (max-width: 560px) {
+  .pager {
+    gap: 8px;
+  }
+  
+  .pagerBtn {
+    min-width: 88px;
+    padding: 8px 12px;
+  }
+  
+  .pagerSelectWrap {
+    min-width: 132px;
+  }
+  
+  .pagerSelect {
+    padding: 8px 12px;
+  }
+}
+
+
+.historyList {
+  display: grid;
+  gap: 10px;
+}
+
+.historyItem {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .04);
+  padding: 12px;
+}
+
+.historyTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.historyDate {
+  font-weight: 900;
+}
+
+.historyMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  color: rgba(233, 237, 255, .78);
+  font-size: 12.5px;
+}
+
+.historyMeta span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .10);
+}
+
+.historyNotes {
+  margin-top: 10px;
+  display: none;
+  gap: 10px;
+}
+
+.historyItem.open .historyNotes {
+  display: grid;
+}
+
+/* El contador existe para que el JS no rompa, pero no se muestra */
+.pill.countPill {
+  display: none !important;
+}
+
+
+/* Botón volver en la esquina superior derecha (sin position fixed) */
+.backRow>.backBtn[data-screen] {
+  margin-left: auto;
+}
+
+/* ===== Ajuste fino: alinear pill y volver exactamente ===== */
+.backRow{
+  padding: 0 6px;          /* mismo aire a izquierda/derecha */
+  gap: 14px;               /* separación consistente */
+}
+
+.backRow .pill,
+.backRow .backBtn{
+  padding: 12px 18px;      /* misma “altura” visual */
+  border-radius: 999px;
+  line-height: 1;          /* evita descuadres por line-height */
+  display: inline-flex;
+  align-items: center;
+}
+
+
+/* ===== Toolbar (Filtrar / Ordenar) en backRow ===== */
+.backTools{
+  margin-right: auto;           /* empuja el grupo a la izquierda */
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolBtn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;   /* 👈 CENTRADO REAL */
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+  color: var(--text);
+  cursor: pointer;
+  line-height: 1;
+  font-weight: 800;
+  text-align: center;        /* 👈 asegura centrado del texto */
+}
+
+.toolBtn:active{ transform: scale(.99); }
+
+
+/* ===== Badge en botón Filtrar cuando hay filtros activos ===== */
+.toolBtn{
+  position: relative; /* necesario para el badge */
+}
+
+.toolBtn.hasBadge::after{
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(46,233,166,.95);
+  box-shadow: 0 10px 18px rgba(46,233,166,.18);
+  border: 1px solid rgba(255,255,255,.25);
+}
+
+
+.optList{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.optRow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.06);
+}
+
+.optRow input{
+  transform: scale(1.15);
+}
+
+
+/* ===== FIX: radios del modal Ordenar (evita que les afecte el input global) ===== */
+.optRow input[type="radio"]{
+  width: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  margin: 0 !important;
+  accent-color: rgba(46,233,166,.95); /* opcional, pero queda bien */
+}
+
+.optRow span{
+  color: var(--text);
+}
+
+
+/* ===== Modal Filtrar ===== */
+.filterH {
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: rgba(233, 237, 255, .92);
+  letter-spacing: .2px;
+}
+
+.filterSection .optList {
+  gap: 10px;
+}
+
+/* Reutilizamos optRow, pero para checkbox */
+.optRow input[type="checkbox"] {
+  width: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  margin: 0 !important;
+  accent-color: rgba(124, 92, 255, .85);
+}
+
+
+/* ===== Buscador desplegable en fila inferior (sin mover botones) ===== */
+
+/* Necesario para posicionar el buscador flotante respecto a la barra */
+.backRow{
+  position: relative;
+}
+
+/* Por defecto oculto */
+.searchBox{
+  display: none;
+}
+
+/* Abierto: aparece debajo de la barra, ocupando ancho */
+.searchBox.open{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: calc(100% + 10px);   /* justo debajo de la barra */
+  z-index: 10;
+
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Input a ancho completo */
+.searchInput{
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  outline: none !important;
+  color: var(--text);
+  font-size: 16px;          /* evita el zoom en iPhone */
+  line-height: 1.2;         /* para que se lea cómodo */
+}
+
+/* Botón limpiar */
+.searchClear{
+  flex: 0 0 auto;
+  border: 0;
+  background: rgba(255,255,255,.08);
+  color: rgba(233,237,255,.85);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  line-height: 1;
+}
+.searchClear:active{ transform: scale(.98); }
+
+/* Para que la lista no quede tapada cuando el buscador esté abierto */
+.screen.searchOpen .listWrap{
+  margin-top: 74px;
+}
+
+
+/* ===== FIX toolbar: todo en una sola línea ===== */
+.backRow{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;        /* <-- NO saltos de línea */
+}
+
+.backTools{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: nowrap;        /* <-- NO saltos de línea */
+}
+
+.backTools > *{
+  flex: 0 1 auto;           /* <-- permite encoger */
+  min-width: 0;             /* <-- permite truncar si hace falta */
+}
+
+
+/* Volver siempre pegado a la derecha y alineado */
+.backRow > .backBtn{
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+
+/* ===== Ajuste fino separación botones toolbar ===== */
+
+.backRow{
+  padding: 0 8px; /* aire lateral real */
+}
+
+.backTools{
+  gap: 14px; /* más separación interna */
+}
+
+.backRow > .backBtn{
+  margin-left: 14px; /* separación clara respecto a Ordenar */
+}
+
+
+/* ===== Sprint 2.2: diagnóstico integrado ===== */
+.diagnosticCard{
+  margin-top:16px;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.045);
+}
+.diagnosticIntro{margin:0 0 16px;color:rgba(233,237,255,.78);}
+.diagnosticActions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.diagnosticActions .toolBtn,.diagnosticActions .btnPrimary{min-height:44px;}
+.diagnosticSection{margin-top:22px;}
+.diagnosticSection h3{margin:0 0 10px;font-size:1rem;}
+.diagnosticFacts{display:grid;gap:10px;margin:0;}
+.diagnosticFacts>div{
+  padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.04);
+}
+.diagnosticFacts dt{margin-bottom:5px;font-weight:900;color:rgba(233,237,255,.72);}
+.diagnosticFacts dd{
+  margin:0;overflow-wrap:anywhere;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+}
+.diagnosticTableWrap{
+  width:100%;overflow-x:auto;border-radius:14px;
+  border:1px solid rgba(255,255,255,.09);
+}
+.diagnosticTable{width:100%;min-width:620px;border-collapse:collapse;}
+.diagnosticTable th,.diagnosticTable td{
+  padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:left;vertical-align:top;overflow-wrap:anywhere;
+}
+.diagnosticTable th{color:rgba(233,237,255,.76);}
+.diagnosticTable td{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:.9rem;
+}
+#diagnosticMessage{min-height:24px;}
+#diagnosticMessage.error{color:#ff9b9b;}
+
+
+/* ===== Sprint 5: integración TMDb ===== */
+.tmdbConfigCard{margin-top:16px;}
+.tmdbConfigIntro,.tmdbConfigNote{
+  color:rgba(233,237,255,.78);
+  line-height:1.5;
+}
+.tmdbConfigIntro{margin:0 0 18px;}
+.tmdbConfigNote{margin:16px 0 0;font-size:.92rem;}
+.tmdbConfigActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+
+.tmdbSearch{
+  margin-bottom:18px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:18px;
+  background:rgba(255,255,255,.04);
+}
+.tmdbSearchHead{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-bottom:10px;
+}
+.tmdbSearchHead span{
+  color:rgba(233,237,255,.68);
+  font-size:.9rem;
+}
+.tmdbSearchRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.tmdbSearchRow input{
+  flex:1 1 auto;
+  min-width:0;
+  font-size:16px;
+}
+.tmdbSearchRow .toolBtn{
+  flex:0 0 auto;
+}
+.tmdbSearchMessage{
+  min-height:22px;
+  margin-top:8px;
+  color:rgba(233,237,255,.76);
+}
+.tmdbSearchMessage.ok{color:#8df0c9;}
+.tmdbSearchMessage.error{color:#ff9b9b;}
+
+.tmdbResults{
+  display:grid;
+  gap:9px;
+  margin-top:10px;
+  max-height:430px;
+  overflow-y:auto;
+}
+.tmdbResult{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+}
+.tmdbResult:active{transform:scale(.99);}
+.tmdbResult img,.tmdbPosterFallback{
+  width:54px;
+  height:80px;
+  flex:0 0 54px;
+  border-radius:9px;
+  object-fit:cover;
+  background:rgba(255,255,255,.06);
+}
+.tmdbPosterFallback{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:4px;
+  color:rgba(233,237,255,.55);
+  font-size:.72rem;
+  text-align:center;
+}
+.tmdbResultText{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.tmdbResultText strong,.tmdbResultOriginal{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tmdbResultOriginal{
+  color:rgba(233,237,255,.64);
+  font-size:.88rem;
+}
+.tmdbResultText small{
+  color:rgba(233,237,255,.72);
+}
+
+.itemCardContent{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+.itemPoster{
+  width:64px;
+  height:96px;
+  flex:0 0 64px;
+  border-radius:10px;
+  object-fit:cover;
+  background:rgba(255,255,255,.05);
+}
+.itemCardText{
+  min-width:0;
+  flex:1 1 auto;
+}
+.detailPosterWrap{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:center;
+}
+.detailPoster{
+  width:min(180px,55vw);
+  aspect-ratio:2/3;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow:0 14px 36px rgba(0,0,0,.28);
+}
+
+
+/* ===== Sprint 6: estadísticas y recomendaciones ===== */
+.statsTopRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+.statsUpdated{
+  min-height:18px;
+  margin-top:7px;
+  color:rgba(233,237,255,.62);
+  font-size:.82rem;
+}
+.statsSection{
+  margin-bottom:16px;
+  padding:17px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:20px;
+  background:rgba(255,255,255,.045);
+}
+.statsSectionHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
+}
+.statsSectionHead h2{
+  margin:0;
+  font-size:1.08rem;
+}
+.statsEyebrow{
+  display:block;
+  margin-bottom:4px;
+  color:rgba(233,237,255,.62);
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.statsSectionMetric{
+  flex:0 0 auto;
+  color:rgba(233,237,255,.68);
+  font-size:.86rem;
+}
+.statsSectionDetail{
+  margin:-5px 0 15px;
+  color:rgba(233,237,255,.62);
+  font-size:.84rem;
+  line-height:1.4;
+}
+.statsCards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.statsCard{
+  min-width:0;
+  padding:15px;
+  border-radius:16px;
+  background:rgba(15,23,42,.54);
+}
+.statsCardValue{
+  display:block;
+  overflow:hidden;
+  color:#fff;
+  font-size:1.55rem;
+  line-height:1.1;
+  text-overflow:ellipsis;
+}
+.statsCardLabel{
+  display:block;
+  margin-top:6px;
+  font-weight:700;
+}
+.statsCard small{
+  display:block;
+  margin-top:5px;
+  color:rgba(233,237,255,.58);
+  line-height:1.35;
+}
+.statsTwoColumns{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+.statsBars{
+  height:190px;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+  align-items:end;
+}
+.statsBarColumn{
+  min-width:0;
+  height:100%;
+  display:grid;
+  grid-template-rows:22px 1fr 23px;
+  gap:5px;
+  text-align:center;
+}
+.statsBarValue{
+  color:rgba(233,237,255,.76);
+  font-size:.8rem;
+}
+.statsBarTrack{
+  position:relative;
+  min-height:90px;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  border-radius:10px 10px 5px 5px;
+  background:rgba(255,255,255,.055);
+}
+.statsBarFill{
+  width:100%;
+  min-height:2px;
+  border-radius:10px 10px 4px 4px;
+  background:linear-gradient(
+    180deg,
+    rgba(129,140,248,.95),
+    rgba(79,70,229,.72)
+  );
+}
+.statsBarLabel{
+  overflow:hidden;
+  color:rgba(233,237,255,.65);
+  font-size:.76rem;
+  text-overflow:ellipsis;
+  text-transform:capitalize;
+}
+.statsRankingList{
+  display:grid;
+  gap:13px;
+}
+.statsRankingRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.statsRankingPosition{
+  width:22px;
+  flex:0 0 22px;
+  color:rgba(233,237,255,.5);
+  font-size:.82rem;
+  text-align:center;
+}
+.statsRankingMain{
+  min-width:0;
+  flex:1 1 auto;
+}
+.statsRankingLabels{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+  font-size:.88rem;
+}
+.statsRankingLabels strong{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.statsRankingLabels span{
+  color:rgba(233,237,255,.6);
+}
+.statsRankingTrack{
+  height:7px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,.065);
+}
+.statsRankingFill{
+  height:100%;
+  border-radius:inherit;
+  background:rgba(129,140,248,.8);
+}
+.recommendationGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.recommendationCard{
+  min-width:0;
+  overflow:hidden;
+  padding:0;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  background:rgba(15,23,42,.6);
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+}
+.recommendationCard img,
+.recommendationPosterFallback{
+  width:100%;
+  aspect-ratio:2/3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  object-fit:cover;
+  background:rgba(255,255,255,.055);
+}
+.recommendationPosterFallback{
+  padding:10px;
+  color:rgba(233,237,255,.52);
+  text-align:center;
+}
+.recommendationBody{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:11px;
+}
+.recommendationBody strong{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.recommendationBody small{
+  min-height:16px;
+  color:rgba(233,237,255,.6);
+}
+.recommendationReasons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:3px;
+}
+.recommendationReasons em{
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(129,140,248,.14);
+  color:rgba(224,231,255,.9);
+  font-size:.7rem;
+  font-style:normal;
+}
+.statsMethodNote{
+  margin:2px 4px 18px;
+  color:rgba(233,237,255,.54);
+  font-size:.8rem;
+  line-height:1.45;
+}
+.statsNoData{
+  margin:0;
+  color:rgba(233,237,255,.62);
+}
+.statsEmpty{
+  padding:28px 20px;
+  border:1px dashed rgba(255,255,255,.14);
+  border-radius:20px;
+  text-align:center;
+}
+.statsEmpty strong{
+  display:block;
+  margin-bottom:8px;
+}
+.statsEmpty p{
+  max-width:480px;
+  margin:0 auto;
+  color:rgba(233,237,255,.65);
+  line-height:1.5;
+}
+.itemCardHighlighted{
+  animation:statsHighlight 1.6s ease;
+}
+@keyframes statsHighlight{
+  0%,100%{box-shadow:0 0 0 0 rgba(129,140,248,0);}
+  30%,70%{box-shadow:0 0 0 3px rgba(129,140,248,.72);}
+}
+
+@media (min-width:720px){
+  .statsCards{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .statsTwoColumns{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .recommendationGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+
+/* ===== Sprint 7: organización y ficha personal ===== */
+.personalFields{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5px;padding:15px;border:1px solid rgba(129,140,248,.22);border-radius:16px;background:rgba(129,140,248,.055)}
+.personalFieldsHead{grid-column:1/-1;font-weight:800;letter-spacing:.02em}
+.personalFields select{width:100%}
+.favoriteField{align-self:end}
+.switchRow{min-height:44px;display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(15,23,42,.4);cursor:pointer}
+.switchRow input{width:18px;height:18px}
+.fieldHint{margin-top:5px;color:rgba(233,237,255,.52);font-size:.76rem}
+.personalBadges{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0 2px}
+.personalBadge{display:inline-flex;align-items:center;max-width:100%;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.07);color:rgba(238,242,255,.88);font-size:.72rem;line-height:1.2}
+.favoriteBadge{background:rgba(250,204,21,.14);color:#fde68a}
+.priority-alta{background:rgba(248,113,113,.14);color:#fecaca}
+.priority-media{background:rgba(251,191,36,.13);color:#fde68a}
+.priority-baja{background:rgba(74,222,128,.12);color:#bbf7d0}
+.tagBadge{background:rgba(129,140,248,.14);color:#e0e7ff}
+@media(max-width:560px){.personalFields{grid-template-columns:1fr}}
+
+
+/* ===== Sprint 8.1: revisión visual del panel de productividad ===== */
+.dashboardHero,
+.dashboardQuickActions{
+  display:none !important;
+}
+
+.dashboardProductivityGrid{
+  margin-top:14px;
+  gap:16px;
+}
+
+.productivitySection{
+  overflow:hidden;
+}
+
+.productivityList{
+  display:grid;
+  gap:12px;
+}
+
+.productivityItem{
+  width:100%;
+  min-height:72px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  align-items:center;
+  padding:14px 15px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,.10);
+}
+
+.productivityItem:hover,
+.productivityItem:focus-visible{
+  background:
+    linear-gradient(180deg, rgba(129,140,248,.12), rgba(255,255,255,.035));
+  border-color:rgba(129,140,248,.26);
+}
+
+.productivityContent{
+  min-width:0;
+  display:grid;
+  gap:9px;
+}
+
+.productivityMain{
+  display:grid;
+  gap:5px;
+  min-width:0;
+}
+
+.productivityMain strong{
+  display:block;
+  overflow:visible;
+  text-overflow:clip;
+  white-space:normal;
+  font-size:.98rem;
+  line-height:1.28;
+}
+
+.productivityMain small{
+  display:block;
+  overflow:visible;
+  text-overflow:clip;
+  white-space:normal;
+  color:rgba(233,237,255,.58);
+  font-size:.8rem;
+  line-height:1.35;
+}
+
+.productivityCallout{
+  justify-self:start;
+  display:inline-flex;
+  align-items:center;
+  min-height:26px;
+  max-width:100%;
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(129,140,248,.14);
+  color:#e0e7ff;
+  font-size:.73rem;
+  line-height:1.2;
+  white-space:normal;
+}
+
+.productivityArrow{
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.72);
+  font-size:1.25rem;
+  line-height:1;
+}
+
+.productivitySection .statsSectionHead{
+  margin-bottom:14px;
+}
+
+.productivitySection .statsSectionHead h2{
+  margin-bottom:0;
+}
+
+@media(max-width:650px){
+  .dashboardProductivityGrid{
+    gap:16px;
+  }
+
+  .productivityItem{
+    min-height:78px;
+    padding:15px;
+    gap:12px;
+  }
+
+  .productivityContent{
+    gap:10px;
+  }
+}
+
+
+/* ===== Sprint 9: seguimiento avanzado de series ===== */
+.seriesProgressPanel{display:grid;gap:9px;margin-top:12px;padding:12px;border:1px solid rgba(129,140,248,.18);border-radius:14px;background:rgba(15,23,42,.38)}
+.seriesProgressHead{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:.82rem}
+.seriesProgressHead span{color:rgba(224,231,255,.72)}
+.seriesProgressTrack{height:7px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.08)}
+.seriesProgressTrack.compact{margin:0 14px}
+.seriesProgressFill{height:100%;border-radius:inherit;background:linear-gradient(90deg,rgba(129,140,248,.9),rgba(45,212,191,.85))}
+.seriesProgressActions,.productivityProgressActions{display:flex;flex-wrap:wrap;gap:8px}
+.seriesProgressActions button,.productivityProgressActions button{min-height:34px;padding:7px 10px;border:1px solid rgba(255,255,255,.11);border-radius:10px;background:rgba(255,255,255,.055);color:inherit;font:inherit;font-size:.78rem;cursor:pointer}
+.seriesProgressActions .progressAdvance,.productivityProgressActions button:nth-child(2){background:rgba(129,140,248,.17)}
+.seriesProgressActions .progressFinish,.productivityProgressActions button:last-child{background:rgba(45,212,191,.12)}
+.seriesProgressDate{color:rgba(233,237,255,.5);font-size:.72rem}
+.progressHistory{display:grid;gap:8px}
+.progressHistoryItem{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 10px;border-radius:11px;background:rgba(255,255,255,.045)}
+.progressHistoryItem span{color:rgba(233,237,255,.62);font-size:.8rem}
+.progressHistoryItem small{color:rgba(233,237,255,.45)}
+.productivityProgressItem{display:grid;grid-template-columns:1fr;padding:0 0 12px}
+.productivityOpen{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 15px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.productivityProgressActions{padding:10px 14px 0}
+@media(max-width:650px){.seriesProgressActions button,.productivityProgressActions button{flex:1 1 auto}.progressHistoryItem{grid-template-columns:1fr auto}.progressHistoryItem span{grid-column:1/-1}}
+
+
+/* ===== Sprint 9.1: temporadas irregulares ===== */
+.progressUnavailable{color:rgba(233,237,255,.52);font-size:.72rem;font-weight:500}
+.compactNotice{display:block;padding:0 14px}
+.fieldHint{line-height:1.35}
+
+
+/* ===== Sprint 9.2: historial de progreso desplegable ===== */
+.progressHistoryField{margin-top:2px}
+.progressHistoryDisclosure{overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:rgba(255,255,255,.025)}
+.progressHistoryDisclosure summary{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;min-height:48px;padding:12px 42px 12px 14px;cursor:pointer;list-style:none;user-select:none;font-weight:700}
+.progressHistoryDisclosure summary::-webkit-details-marker{display:none}
+.progressHistoryDisclosure summary::after{content:"›";position:absolute;right:15px;top:50%;transform:translateY(-50%) rotate(90deg);color:rgba(255,255,255,.65);font-size:1.3rem;line-height:1;transition:transform .18s ease}
+.progressHistoryDisclosure[open] summary::after{transform:translateY(-50%) rotate(-90deg)}
+.progressHistoryDisclosure summary:hover,.progressHistoryDisclosure summary:focus-visible{background:rgba(129,140,248,.08)}
+.progressHistoryCount{color:rgba(233,237,255,.52);font-size:.76rem;font-weight:500;white-space:nowrap}
+.progressHistoryDisclosure .progressHistory{padding:0 12px 12px}
+.progressHistoryDisclosure[open] summary{margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,.07)}
+@media(max-width:650px){.progressHistoryDisclosure summary{grid-template-columns:1fr;gap:3px;padding-right:42px}.progressHistoryCount{white-space:normal}}
+
+
+/* ===== Sprint 10: temporadas reales desde TMDb ===== */
+.tmdbSeasonSummary{
+  margin-top:10px;
+  padding:10px 12px;
+  border:1px solid rgba(129,140,248,.22);
+  border-radius:12px;
+  background:rgba(129,140,248,.08);
+  color:rgba(238,240,255,.82);
+  font-size:.78rem;
+  line-height:1.45;
+}
+
+.tmdbSeasonSyncPanel{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px 14px;
+  align-items:center;
+  padding:14px;
+  border:1px solid rgba(129,140,248,.22);
+  border-radius:14px;
+  background:rgba(129,140,248,.07);
+}
+
+.tmdbSeasonSyncPanel > div:first-child{
+  display:grid;
+  gap:4px;
+}
+
+.tmdbSeasonSyncPanel span{
+  color:rgba(233,237,255,.58);
+  font-size:.78rem;
+  line-height:1.4;
+}
+
+.tmdbSeasonSyncMessage{
+  grid-column:1/-1;
+  min-height:1.1em;
+  color:rgba(233,237,255,.62);
+  font-size:.76rem;
+}
+
+.tmdbSeasonSyncMessage.ok{color:#86efac}
+.tmdbSeasonSyncMessage.error{color:#fca5a5}
+
+@media(max-width:650px){
+  .tmdbSeasonSyncPanel{
+    grid-template-columns:1fr;
+  }
+
+  .tmdbSeasonSyncPanel .toolBtn{
+    width:100%;
+  }
+}
+
+
+/* ===== Sprint 10.1 · Selectores de temporada y capítulo ===== */
+.seasonEpisodeHint {
+  margin-top: -4px;
+  padding: 10px 12px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--muted, #aeb7c6);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.seasonEpisodeHint[data-state="ready"] {
+  border-color: rgba(71, 191, 135, 0.35);
+}
+
+.seasonEpisodeHint[data-state="warning"] {
+  border-color: rgba(245, 181, 69, 0.45);
+}
+
+select[name="currentSeason"]:disabled,
+select[name="currentEpisode"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+
+/* ===== Sprint 11 · Colecciones inteligentes ===== */
+.smartCollectionsHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.smartCollectionsIntro {
+  margin: 10px 0 0;
+  color: var(--muted, #aeb7c6);
+  line-height: 1.45;
+}
+
+.smartTypeSelector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.smartTypeBtn {
+  min-height: 42px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: inherit;
+  font-weight: 700;
+}
+
+.smartTypeBtn.active {
+  border-color: rgba(104, 164, 255, 0.75);
+  background: rgba(104, 164, 255, 0.16);
+}
+
+.smartCollectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.smartCollectionCard {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 92px;
+  padding: 12px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  color: inherit;
+  text-align: left;
+}
+
+.smartCollectionCard.active {
+  border-color: rgba(104, 164, 255, 0.75);
+  background: rgba(104, 164, 255, 0.14);
+}
+
+.smartCollectionIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 900;
+}
+
+.smartCollectionText {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.smartCollectionText strong {
+  font-size: 0.98rem;
+}
+
+.smartCollectionText small {
+  color: var(--muted, #aeb7c6);
+  line-height: 1.3;
+}
+
+.smartCollectionCount {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  font-weight: 800;
+}
+
+.smartCollectionResults[hidden] {
+  display: none !important;
+}
+
+.smartCollectionResults {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 2px 0 8px;
+  padding: 14px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.smartCollectionResultsHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.smartCollectionResultsHead h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.smartCollectionResultsHead p {
+  margin: 5px 0 0;
+  color: var(--muted, #aeb7c6);
+  line-height: 1.35;
+}
+
+@media (max-width: 560px) {
+  .smartCollectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .smartCollectionsHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .smartCollectionsHeader .backBtn {
+    align-self: flex-start;
+  }
+
+  .smartCollectionResultsHead {
+    flex-direction: column;
+  }
+}
+
+
+/* ===== Sprint 12.0 · Ficha detallada ===== */
+.detailViewScreen{padding-bottom:32px}
+.detailViewTopbar{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.detailViewTopbar h1{margin:5px 0 0;font-size:clamp(1.45rem,5vw,2rem);line-height:1.15}
+.detailViewBack{flex:0 0 auto;margin-top:2px}
+.detailViewContent{display:grid;gap:16px}
+.detailHero{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow)}
+.detailHeroPoster{width:120px;aspect-ratio:2/3;object-fit:cover;border-radius:14px;background:rgba(255,255,255,.06)}
+.detailHeroPosterEmpty{display:grid;place-items:center;text-align:center;padding:8px;color:var(--muted);font-size:.85rem}
+.detailHeroText{min-width:0}
+.detailHeroText h2{margin:4px 0 8px;font-size:1.45rem;overflow-wrap:anywhere}
+.detailHeroText p{margin:0 0 12px;color:var(--muted)}
+.detailHeroEyebrow{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.detailNoTmdb,.detailSyncMessage{font-size:.88rem}
+.detailSyncMessage{min-height:1.3em;margin-top:8px;color:var(--muted)}
+.detailSections{display:grid;gap:12px}
+.detailSection{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden}
+.detailSection summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;font-weight:850;cursor:pointer;list-style:none}
+.detailSection summary::-webkit-details-marker{display:none}
+.detailSection summary::after{content:"＋";font-size:1.1rem;color:var(--muted)}
+.detailSection[open] summary::after{content:"−"}
+.detailSection summary small{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:700}
+.detailSectionBody{padding:0 16px 16px}
+.detailSynopsis{line-height:1.6;white-space:pre-wrap;margin-bottom:16px}
+.detailMetaGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
+.detailMetaRow{padding:12px;border-radius:12px;background:rgba(255,255,255,.04)}
+.detailMetaRow dt{font-size:.78rem;font-weight:800;color:var(--muted);margin-bottom:5px}
+.detailMetaRow dd{margin:0;line-height:1.4;overflow-wrap:anywhere}
+.detailEmpty{color:var(--muted);font-style:italic}
+.detailSectionUpcoming{opacity:.82}
+.detailUpcomingText{margin:0;color:var(--muted);line-height:1.5}
+.detailViewError{padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.modalBtnFull{font-weight:800}
+@media (max-width:600px){
+  .detailHero{grid-template-columns:88px minmax(0,1fr);gap:12px;padding:13px}
+  .detailHeroPoster{width:88px}
+  .detailMetaGrid{grid-template-columns:1fr}
+  .detailHeroText h2{font-size:1.2rem}
+}
+
+
+/* ===== Sprint 12.0.1 · Aislamiento de ficha completa ===== */
+body.detail-view-open{
+  overflow:hidden;
+}
+body.detail-view-open .app{
+  display:none;
+}
+body.detail-view-open .detailViewScreen{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:block;
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+  width:100%;
+  height:100dvh;
+  max-height:none;
+  padding:max(18px, env(safe-area-inset-top)) 20px max(32px, env(safe-area-inset-bottom));
+  overflow-y:auto;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(111,76,255,.28), transparent 34%),
+    radial-gradient(circle at 100% 34%, rgba(38,208,190,.18), transparent 38%),
+    #0b1027;
+}
+body.detail-view-open .detailViewContent{
+  width:min(760px, 100%);
+  margin:0 auto;
+}
+body.detail-view-open .detailViewTopbar{
+  width:min(760px, 100%);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
+/* ===== Sprint 12.1 · Reparto, equipo e información ampliada ===== */
+.detailTagline{font-style:italic;color:var(--text)!important;opacity:.86}
+.detailPeopleBlock+ .detailPeopleBlock{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.detailPeopleBlock h3{margin:0 0 12px;font-size:1rem}
+.detailCastGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.detailCastCard{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px;align-items:center;padding:9px;border-radius:13px;background:rgba(255,255,255,.04)}
+.detailCastCard img,.detailCastPhotoEmpty{width:54px;height:68px;border-radius:10px;object-fit:cover;background:rgba(255,255,255,.07)}
+.detailCastPhotoEmpty{display:grid;place-items:center;font-size:1.4rem}
+.detailCastCard strong,.detailCastCard span{display:block;overflow-wrap:anywhere}
+.detailCastCard strong{font-size:.9rem;line-height:1.25}
+.detailCastCard span{margin-top:4px;color:var(--muted);font-size:.8rem;line-height:1.3}
+.detailCrewList{display:grid;gap:9px;margin:0}
+.detailCrewList>div{display:grid;grid-template-columns:minmax(105px,.42fr) minmax(0,1fr);gap:12px;padding:11px 12px;border-radius:12px;background:rgba(255,255,255,.04)}
+.detailCrewList dt{font-size:.78rem;font-weight:850;color:var(--muted)}
+.detailCrewList dd{margin:0;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:600px){.detailCastGrid{grid-template-columns:1fr}.detailCrewList>div{grid-template-columns:1fr;gap:4px}}
+
+/* Sprint 12.2 · Disponibilidad mediante suscripción */
+.detailAvailability{display:grid;gap:14px}
+.detailAvailabilityHeader{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.detailAvailabilityHeader>div{display:grid;gap:3px}
+.detailAvailabilityHeader strong{font-size:1rem}
+.detailAvailabilityHeader span{font-size:.78rem;color:var(--muted)}
+.detailProviderGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px}
+.detailProviderCard{display:grid;place-items:center;align-content:center;gap:8px;min-height:116px;padding:12px 9px;border-radius:14px;background:rgba(255,255,255,.04);text-align:center}
+.detailProviderCard img,.detailProviderLogoEmpty{width:54px;height:54px;border-radius:13px;object-fit:cover;background:rgba(255,255,255,.08)}
+.detailProviderLogoEmpty{display:grid;place-items:center;font-size:1.25rem;color:var(--muted)}
+.detailProviderCard strong{font-size:.78rem;line-height:1.25;overflow-wrap:anywhere}
+.detailAvailabilityUpdated{min-height:1.25em;margin:0;color:var(--muted);font-size:.78rem;line-height:1.4}
+@media(max-width:600px){
+  .detailAvailabilityHeader{align-items:flex-start;flex-direction:column}
+  .detailAvailabilityHeader .toolBtn{width:100%}
+  .detailProviderGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:390px){.detailProviderGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.detailTrailer{display:grid;gap:12px}
+.detailTrailerFrame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
+.detailTrailerFrame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.detailTrailerLink{justify-self:start;text-decoration:none}
+@media (max-width:640px){.detailTrailerLink{width:100%;text-align:center}}
+
+/* ===== Sprint 14.2 · Mis plataformas ===== */
+.userPlatformsCard{display:grid;gap:16px}
+.userPlatformsActions{display:flex;flex-wrap:wrap;gap:10px}
+.userPlatformsActions .btnPrimary,.userPlatformsActions .toolBtn{flex:1 1 180px}
+.userPlatformsStatus{min-height:1.4em}
+.userPlatformsDisclosure{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);overflow:hidden}
+.userPlatformsDisclosure summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;cursor:pointer;font-weight:850;list-style:none}
+.userPlatformsDisclosure summary::-webkit-details-marker{display:none}
+.userPlatformsDisclosure summary::after{content:"＋";color:var(--muted);font-size:1.05rem}
+.userPlatformsDisclosure[open] summary::after{content:"−"}
+.userPlatformsDisclosure summary small{margin-left:auto;color:var(--muted);font-size:.76rem;font-weight:750;text-align:right}
+.userPlatformsList{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px;padding:0 14px 14px}
+.userPlatformOption{display:grid;grid-template-columns:auto 46px minmax(0,1fr);align-items:center;gap:11px;min-height:66px;padding:9px 11px;border:1px solid transparent;border-radius:13px;background:rgba(255,255,255,.045);cursor:pointer}
+.userPlatformOption:has(input:checked){border-color:rgba(111,76,255,.8);background:rgba(111,76,255,.14)}
+.userPlatformOption input{width:20px;height:20px;margin:0;accent-color:#7d62ff}
+.userPlatformLogo,.userPlatformLogo img,.userPlatformLogoFallback{width:46px;height:46px;border-radius:11px}
+.userPlatformLogo{display:grid;place-items:center;overflow:hidden;background:rgba(255,255,255,.08)}
+.userPlatformLogo img{display:block;object-fit:cover}
+.userPlatformLogoFallback{display:grid;place-items:center;color:var(--muted);font-size:1rem}
+.userPlatformName{min-width:0;font-size:.88rem;font-weight:780;line-height:1.25;overflow-wrap:anywhere}
+.userPlatformsEmpty{grid-column:1/-1;margin:0;padding:18px;text-align:center;color:var(--muted)}
+@media(max-width:520px){
+  .userPlatformsDisclosure summary{align-items:flex-start;flex-wrap:wrap}
+  .userPlatformsDisclosure summary small{width:100%;margin-left:0;text-align:left}
+  .userPlatformsList{grid-template-columns:1fr}
+}
+
+
+/* ===== Sprint 15.1.1 · Jerarquía visual del panel Doblaje ===== */
+.detailDubbing{display:grid;gap:12px}
+.detailDubbingStatus{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:12px;padding:13px;border-radius:14px;background:rgba(255,255,255,.04)}
+.detailDubbingStatusLinked{border:1px solid rgba(46,233,166,.24);background:rgba(46,233,166,.055)}
+.detailDubbingStatusCompact{grid-template-columns:30px minmax(0,1fr);gap:9px;padding:8px 10px;border-radius:12px}
+.detailDubbingIcon{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.07);font-size:1.25rem}
+.detailDubbingIconCompact{width:30px;height:30px;border-radius:9px;font-size:1rem}
+.detailDubbingStatus strong{display:block;margin-bottom:4px}
+.detailDubbingStatusCompact strong{display:inline;margin:0;color:var(--text)}
+.detailDubbingStatus p,.detailDubbingMessage{margin:0;color:var(--muted);font-size:.84rem;line-height:1.45}
+.detailDubbingStatusCompact p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.detailDubbingActions{display:flex;flex-wrap:wrap;gap:9px}
+.detailDubbingActions .toolBtn,.detailDubbingPrimaryAction .toolBtn,.detailDubbingSecondaryActions .toolBtn{text-decoration:none}
+.detailDubbingPrimaryAction{display:grid}
+.detailDubbingPrimary{width:100%;min-height:52px;border-color:rgba(46,233,166,.62);background:linear-gradient(135deg,rgba(46,233,166,.18),rgba(58,174,255,.12));box-shadow:0 10px 24px rgba(0,0,0,.13);font-weight:900}
+.detailDubbingSecondaryActions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.detailDubbingSecondaryActions .toolBtn{width:100%;min-height:42px;padding:9px 12px;font-size:.86rem}
+.detailDubbingDelete{border-color:rgba(255,100,120,.32);color:#ffb5c0}
+.detailDubbingMessage{min-height:1.2em}
+.dubbingLinkField{display:grid;gap:8px}
+.dubbingLinkField span{font-weight:800}
+.dubbingLinkField input{width:100%;overflow:hidden;text-overflow:ellipsis}
+.dubbingLinkHelp{margin:10px 0 0;color:var(--muted);font-size:.86rem;line-height:1.5}
+.dubbingLinkError{min-height:1.25em;margin:10px 0 0;color:#ffb5c0;font-size:.86rem;line-height:1.4}
+@media(max-width:600px){
+  .detailDubbingActions{display:grid}
+  .detailDubbingActions .toolBtn{width:100%}
+}
+@media(max-width:360px){
+  .detailDubbingSecondaryActions{grid-template-columns:1fr}
+}
+
+
+/* ===== FC1.4.1: tarjetas accionables de disponibilidad ===== */
+.statsAvailableNow{
+  border-color:rgba(74,222,128,.18);
+  background:linear-gradient(180deg,rgba(34,197,94,.08),rgba(255,255,255,.035));
+}
+.statsAvailableGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.statsAvailableCard{
+  min-width:0;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  background:rgba(15,23,42,.62);
+  color:inherit;
+  text-align:left;
+}
+.statsAvailableCard strong{
+  display:block;
+  color:#fff;
+  font-size:1.7rem;
+  line-height:1;
+}
+.statsAvailableCard span{
+  display:block;
+  margin-top:8px;
+  font-weight:800;
+  line-height:1.25;
+}
+.statsAvailableCard small{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:7px;
+  color:rgba(233,237,255,.62);
+  line-height:1.3;
+}
+.statsAvailableAction{
+  cursor:pointer;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease;
+}
+.statsAvailableAction:not(:disabled):hover,
+.statsAvailableAction:not(:disabled):focus-visible{
+  transform:translateY(-1px);
+  border-color:rgba(74,222,128,.45);
+  background:rgba(34,197,94,.12);
+}
+.statsAvailableAction:disabled{
+  cursor:default;
+  opacity:.72;
+}
+.statsAvailableTotal{
+  background:rgba(34,197,94,.10);
+}
+.statsAvailableHint{
+  margin:12px 0 0;
+  color:rgba(233,237,255,.66);
+  font-size:.86rem;
+  line-height:1.45;
+}
+@media(max-width:700px){
+  .statsAvailableGrid{grid-template-columns:1fr 1fr;}
+  .statsAvailableTotal{grid-column:1/-1;}
+}
+@media(max-width:420px){
+  .statsAvailableGrid{grid-template-columns:1fr;}
+  .statsAvailableTotal{grid-column:auto;}
+}

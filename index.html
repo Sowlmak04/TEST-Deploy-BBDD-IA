@@ -1,0 +1,1207 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Series &amp; Pelis</title>
+<link href="manifest.json" rel="manifest"/>
+<meta content="#0f172a" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Series&amp;Pelis" name="apple-mobile-web-app-title"/>
+<link href="icons/icon-180.png" rel="apple-touch-icon"/>
+<link href="icons/icon-192.png" rel="icon"/>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<div class="shell">
+<header>
+<nav aria-label="Selector de pantallas" class="tabs" role="tablist">
+<button aria-selected="true" class="tab" data-main="series" role="tab">SERIES</button>
+<button aria-selected="false" class="tab" data-main="peliculas" role="tab">PELÍCULAS</button>
+<button aria-selected="false" class="tab" data-main="resumen" role="tab">RESUMEN</button>
+<button aria-selected="false" class="tab" data-main="anadir" role="tab">Añadir</button>
+</nav>
+</header>
+<main aria-live="polite" class="panel">
+<section class="screens">
+<!-- SERIES HOME -->
+<div class="screen active" data-screen="series-home">
+<div class="menu">
+<button class="menuBtn" data-screen="series-pendientes">Series pendientes</button>
+<button class="menuBtn" data-screen="series-vistas">Series vistas</button>
+<button class="menuBtn" data-smart-open="series" type="button">Colecciones inteligentes</button>
+</div>
+</div>
+<!-- SERIES PENDIENTES (LISTA) -->
+<div class="screen" data-screen="series-pendientes">
+<div class="backRow">
+<span class="pill countPill" id="count-series-pendientes">0</span>
+<div class="backTools">
+<button aria-label="Buscar" class="toolBtn" data-search-toggle="series-pendientes" type="button">🔎</button>
+<div class="searchBox collapsed" data-search-box="series-pendientes">
+<input class="searchInput" data-search="series-pendientes" placeholder="Buscar..."/>
+<button aria-label="Limpiar" class="searchClear" data-search-clear="series-pendientes" type="button">×</button>
+</div>
+<button class="toolBtn" data-action="filter" data-scope="series-pendientes" type="button">Filtrar</button>
+<button class="toolBtn" data-action="sort" data-scope="series-pendientes" type="button">Ordenar</button>
+</div>
+<button class="backBtn" data-screen="series-home">← Volver</button>
+</div>
+<div class="listWrap" id="list-series-pendientes"></div>
+<div class="pager" id="pager-series-pendientes" style="display:none;"></div>
+<div class="empty" id="empty-series-pendientes" style="display:none;">
+              No tienes series pendientes todavía. Ve a <b>Añadir</b> para guardar una.
+            </div>
+</div>
+<!-- SERIES VISTAS (LISTA) -->
+<div class="screen" data-screen="series-vistas">
+<div class="backRow">
+<span class="pill countPill" id="count-series-vistas">0</span>
+<div class="backTools">
+<button aria-label="Buscar" class="toolBtn" data-search-toggle="series-vistas" type="button">🔎</button>
+<div class="searchBox collapsed" data-search-box="series-vistas">
+<input class="searchInput" data-search="series-vistas" placeholder="Buscar..."/>
+<button aria-label="Limpiar" class="searchClear" data-search-clear="series-vistas" type="button">×</button>
+</div>
+<button class="toolBtn" data-action="filter" data-scope="series-vistas" type="button">Filtrar</button>
+<button class="toolBtn" data-action="sort" data-scope="series-vistas" type="button">Ordenar</button>
+</div>
+<button class="backBtn" data-screen="series-home">← Volver</button>
+</div>
+<div class="listWrap" id="list-series-vistas"></div>
+<div class="pager" id="pager-series-vistas" style="display:none;"></div>
+<div class="empty" id="empty-series-vistas" style="display:none;">
+              No tienes series vistas todavía. Ve a <b>Añadir</b> para guardar una.
+            </div>
+</div>
+<!-- PELICULAS HOME -->
+<div class="screen" data-screen="peliculas-home">
+<div class="menu">
+<button class="menuBtn" data-screen="peliculas-pendientes">Películas pendientes</button>
+<button class="menuBtn" data-screen="peliculas-vistas">Películas vistas</button>
+<button class="menuBtn" data-smart-open="peliculas" type="button">Colecciones inteligentes</button>
+</div>
+</div>
+<!-- PELICULAS PENDIENTES (LISTA) -->
+<div class="screen" data-screen="peliculas-pendientes">
+<div class="backRow">
+<span class="pill countPill" id="count-peliculas-pendientes">0</span>
+<div class="backTools">
+<button aria-label="Buscar" class="toolBtn" data-search-toggle="peliculas-pendientes" type="button">🔎</button>
+<div class="searchBox collapsed" data-search-box="peliculas-pendientes">
+<input class="searchInput" data-search="peliculas-pendientes" placeholder="Buscar..."/>
+<button aria-label="Limpiar" class="searchClear" data-search-clear="peliculas-pendientes" type="button">×</button>
+</div>
+<button class="toolBtn" data-action="filter" data-scope="peliculas-pendientes" type="button">Filtrar</button>
+<button class="toolBtn" data-action="sort" data-scope="peliculas-pendientes" type="button">Ordenar</button>
+</div>
+<button class="backBtn" data-screen="peliculas-home">← Volver</button>
+</div>
+<div class="listWrap" id="list-peliculas-pendientes"></div>
+<div class="pager" id="pager-peliculas-pendientes" style="display:none;"></div>
+<div class="empty" id="empty-peliculas-pendientes" style="display:none;">
+              No tienes películas pendientes todavía. Ve a <b>Añadir</b> para guardar una.
+            </div>
+</div>
+<!-- PELICULAS VISTAS (LISTA) -->
+<div class="screen" data-screen="peliculas-vistas">
+<div class="backRow">
+<span class="pill countPill" id="count-peliculas-vistas">0</span>
+<div class="backTools">
+<button aria-label="Buscar" class="toolBtn" data-search-toggle="peliculas-vistas" type="button">🔎</button>
+<div class="searchBox collapsed" data-search-box="peliculas-vistas">
+<input class="searchInput" data-search="peliculas-vistas" placeholder="Buscar..."/>
+<button aria-label="Limpiar" class="searchClear" data-search-clear="peliculas-vistas" type="button">×</button>
+</div>
+<button class="toolBtn" data-action="filter" data-scope="peliculas-vistas" type="button">Filtrar</button>
+<button class="toolBtn" data-action="sort" data-scope="peliculas-vistas" type="button">Ordenar</button>
+</div>
+<button class="backBtn" data-screen="peliculas-home">← Volver</button>
+</div>
+<div class="listWrap" id="list-peliculas-vistas"></div>
+<div class="pager" id="pager-peliculas-vistas" style="display:none;"></div>
+<div class="empty" id="empty-peliculas-vistas" style="display:none;">
+              No tienes películas vistas todavía. Ve a <b>Añadir</b> para guardar una.
+            </div>
+</div>
+<!-- COLECCIONES INTELIGENTES -->
+<div class="screen" data-screen="colecciones-inteligentes">
+  <div class="smartCollectionsHeader">
+    <div>
+      <span class="pill">Colecciones inteligentes</span>
+      <p class="smartCollectionsIntro">
+        Vistas automáticas de tu biblioteca. No duplican ni modifican registros.
+      </p>
+    </div>
+    <button class="backBtn" data-smart-back type="button">← Volver</button>
+  </div>
+
+  <div class="smartTypeSelector" aria-label="Tipo de contenido">
+    <button class="smartTypeBtn active" data-smart-type="all" type="button" aria-pressed="true">Todo</button>
+    <button class="smartTypeBtn" data-smart-type="series" type="button" aria-pressed="false">Series</button>
+    <button class="smartTypeBtn" data-smart-type="peliculas" type="button" aria-pressed="false">Películas</button>
+  </div>
+
+  <div class="smartCollectionGrid" id="smart-collection-grid"></div>
+
+  <div class="smartCollectionResults" id="smart-collection-results" hidden>
+    <div class="smartCollectionResultsHead">
+      <div>
+        <h2 id="smart-collection-title">Favoritos</h2>
+        <p id="smart-collection-subtitle"></p>
+      </div>
+      <span class="pill countPill" id="smart-collection-count">0 elementos</span>
+    </div>
+
+    <div class="listWrap" id="smart-collection-list"></div>
+    <div class="pager" id="smart-collection-pager" style="display:none;"></div>
+    <div class="empty" id="smart-collection-empty" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- RESUMEN Y RECOMENDACIONES -->
+<div class="screen" data-screen="resumen-home">
+  <div class="statsTopRow">
+    <div>
+      <span class="pill">Estadísticas y recomendaciones</span>
+      <div class="statsUpdated" id="statistics-updated"></div>
+    </div>
+    <button class="toolBtn" id="btnStatsRefresh" type="button">
+      Actualizar
+    </button>
+  </div>
+
+  <div id="statistics-dashboard"></div>
+</div>
+
+<!-- AÑADIR HOME -->
+<div class="screen" data-screen="anadir-home">
+<div class="menu">
+<button class="menuBtn" data-screen="anadir-series">Series</button>
+<button class="menuBtn" data-screen="anadir-peliculas">Películas</button>
+<button class="menuBtn" data-screen="mantenimiento-home">Mantenimiento</button>
+</div>
+</div>
+
+<!-- MANTENIMIENTO -->
+<div class="screen" data-screen="mantenimiento-home">
+  <div class="backRow">
+    <span class="pill">Mantenimiento</span>
+    <button class="backBtn" data-screen="anadir-home" type="button">← Volver</button>
+  </div>
+  <div class="menu" style="padding-top:10px">
+    <button class="menuBtn" data-screen="tmdb-config">Configurar TMDb</button>
+    <button class="menuBtn" data-screen="backup-home">Importar / Exportar</button>
+    <button class="menuBtn" data-screen="mis-plataformas">Mis plataformas</button>
+  </div>
+</div>
+
+<!-- MIS PLATAFORMAS -->
+<div class="screen" data-screen="mis-plataformas">
+  <div class="backRow">
+    <span class="pill">Mantenimiento · Mis plataformas</span>
+    <button class="backBtn" data-screen="mantenimiento-home" type="button">← Volver</button>
+  </div>
+  <div class="formCard userPlatformsCard">
+    <p class="tmdbConfigIntro">
+      Selecciona las plataformas de suscripción que tienes contratadas.
+      La selección se guarda únicamente en este navegador o PWA.
+    </p>
+
+    <div class="userPlatformsActions">
+      <button class="toolBtn" id="btnUserPlatformsRefresh" type="button">
+        Actualizar catálogo
+      </button>
+      <button class="btnPrimary" id="btnUserPlatformsSave" type="button">
+        Guardar selección
+      </button>
+    </div>
+
+    <div class="msg userPlatformsStatus" id="userPlatformsStatus" aria-live="polite"></div>
+
+    <details class="userPlatformsDisclosure" open>
+      <summary>
+        <span>Plataformas disponibles en España</span>
+        <small id="userPlatformsSummary">0 plataformas seleccionadas</small>
+      </summary>
+      <div class="userPlatformsList" id="userPlatformsList" aria-label="Plataformas contratadas"></div>
+    </details>
+
+    <p class="tmdbConfigNote">
+      Un fallo de red nunca elimina la selección previamente guardada.
+      Esta selección determina el indicador «Disponible en mis plataformas».
+    </p>
+  </div>
+</div>
+<!-- AÑADIR: SERIES -->
+<div class="screen" data-screen="anadir-series">
+<div class="backRow">
+<span class="pill">Añadir · Series</span>
+<button class="backBtn" data-screen="anadir-home">← Volver</button>
+</div>
+<div class="menu" style="padding-top:10px">
+<button class="menuBtn" data-screen="anadir-series-pendientes">Añadir a pendientes</button>
+<button class="menuBtn" data-screen="anadir-series-vistas">Añadir a vistas</button>
+</div>
+</div>
+<!-- AÑADIR: PELICULAS -->
+<div class="screen" data-screen="anadir-peliculas">
+<div class="backRow">
+<span class="pill">Añadir · Películas</span>
+<button class="backBtn" data-screen="anadir-home">← Volver</button>
+</div>
+<div class="menu" style="padding-top:10px">
+<button class="menuBtn" data-screen="anadir-peliculas-pendientes">Añadir a pendientes</button>
+<button class="menuBtn" data-screen="anadir-peliculas-vistas">Añadir a vistas</button>
+</div>
+</div>
+
+<!-- CONFIGURACIÓN TMDB -->
+<div class="screen" data-screen="tmdb-config">
+  <div class="backRow">
+    <span class="pill">Configuración · TMDb</span>
+    <button class="backBtn" data-screen="mantenimiento-home" type="button">← Volver</button>
+  </div>
+
+  <div class="formCard tmdbConfigCard">
+    <p class="tmdbConfigIntro">
+      Guarda aquí tu API Read Access Token de TMDb. Se almacena solo en
+      este navegador o PWA y no se incluye en las exportaciones.
+    </p>
+
+    <div class="field">
+      <label for="tmdb-token">API Read Access Token</label>
+      <textarea
+        id="tmdb-token"
+        rows="4"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+        placeholder="Pega aquí el token"
+      ></textarea>
+    </div>
+
+    <div class="tmdbConfigActions">
+      <button class="btnPrimary" id="btnTmdbSave" type="button">Guardar token</button>
+      <button class="toolBtn" id="btnTmdbTest" type="button">Probar conexión</button>
+      <button class="toolBtn" id="btnTmdbClear" type="button">Eliminar token</button>
+    </div>
+
+    <div class="msg" id="tmdb-status" aria-live="polite"></div>
+
+    <p class="tmdbConfigNote">
+      No subas el token dentro de ningún archivo de GitHub. Al eliminar
+      los datos del sitio o cambiar de navegador tendrás que guardarlo de nuevo.
+    </p>
+  </div>
+</div>
+
+<!-- BACKUP HOME -->
+<div class="screen" data-screen="backup-home">
+<div class="backRow">
+<span class="pill">Datos</span>
+<div class="backTools"></div>
+<button class="backBtn" data-screen="mantenimiento-home">← Volver</button>
+</div>
+<div class="menu">
+<button class="menuBtn" data-screen="diagnostico-home" id="btnOpenDiagnostic" type="button">Diagnóstico de almacenamiento</button>
+<button class="menuBtn" id="btnExport" type="button">Exportar datos (JSON)</button>
+<label class="menuBtn" for="importFileReplace" id="btnImportReplaceLabel">Importar datos (REEMPLAZAR)</label>
+<input accept="application/json" id="importFileReplace" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" type="file"/>
+<label class="menuBtn" for="importFileMerge" id="btnImportMergeLabel">Importar datos (MEZCLAR)</label>
+<input accept="application/json" id="importFileMerge" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" type="file"/>
+</div>
+</div>
+
+<!-- DIAGNÓSTICO INTEGRADO -->
+<div class="screen" data-screen="diagnostico-home">
+  <div class="backRow">
+    <span class="pill">Diagnóstico</span>
+    <div class="backTools"></div>
+    <button class="backBtn" data-screen="backup-home" type="button">← Volver</button>
+  </div>
+
+  <div class="diagnosticCard">
+    <p class="diagnosticIntro">Este informe muestra el almacenamiento que está viendo esta instancia. No elimina ni modifica tus datos.</p>
+
+    <div class="diagnosticActions">
+      <button class="btnPrimary" id="btnDiagnosticRefresh" type="button">Actualizar</button>
+      <button class="toolBtn" id="btnDiagnosticCopy" type="button">Copiar informe</button>
+      <button class="toolBtn" id="btnDiagnosticDownload" type="button">Descargar JSON</button>
+    </div>
+
+    <div class="msg" id="diagnosticMessage" aria-live="polite"></div>
+
+    <div class="diagnosticSection">
+      <h3>Contexto</h3>
+      <dl class="diagnosticFacts">
+        <div><dt>Origen</dt><dd id="diagOrigin">—</dd></div>
+        <div><dt>Ruta</dt><dd id="diagPathname">—</dd></div>
+        <div><dt>URL completa</dt><dd id="diagHref">—</dd></div>
+        <div><dt>Modo</dt><dd id="diagMode">—</dd></div>
+        <div><dt>Esquema</dt><dd id="diagSchema">—</dd></div>
+      </dl>
+    </div>
+
+    <div class="diagnosticSection">
+      <h3>Datos principales</h3>
+      <div class="diagnosticTableWrap">
+        <table class="diagnosticTable">
+          <thead><tr><th>Clave</th><th>Tipo</th><th>Cantidad</th></tr></thead>
+          <tbody id="diagMainKeys"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="diagnosticSection">
+      <h3>Todas las claves encontradas</h3>
+      <div class="diagnosticTableWrap">
+        <table class="diagnosticTable">
+          <thead><tr><th>Clave</th><th>Tipo</th><th>Cantidad</th><th>Vista previa</th></tr></thead>
+          <tbody id="diagAllKeys"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FORM: AÑADIR SERIE PENDIENTE -->
+<div class="screen" data-screen="anadir-series-pendientes">
+<div class="backRow">
+<span class="pill">Formulario · Serie pendiente</span>
+<button class="backBtn" data-screen="anadir-series" type="button">← Volver</button>
+</div>
+<form autocomplete="off" class="formCard" id="form-series-pendientes">
+
+<div class="tmdbSearch" data-tmdb-search data-tmdb-kind="series">
+  <div class="tmdbSearchHead">
+    <strong>Buscar serie en TMDb</strong>
+    <span>Rellena automáticamente la ficha</span>
+  </div>
+  <div class="tmdbSearchRow">
+    <input data-tmdb-query type="search" placeholder="Ej. Dark" aria-label="Título de la serie">
+    <button class="toolBtn" data-tmdb-submit type="button">Buscar</button>
+  </div>
+  <div class="tmdbSearchMessage" data-tmdb-message aria-live="polite"></div>
+  <div class="tmdbSeasonSummary" data-tmdb-seasons-summary hidden></div>
+  <div class="tmdbResults" data-tmdb-results hidden></div>
+</div>
+
+<div class="formGrid">
+<div class="field">
+<label for="sp-title">Título <span class="req">*</span></label>
+<input id="sp-title" name="title" placeholder="Ej. Dark" required=""/>
+</div>
+<div class="field">
+<label for="sp-genre">Género</label>
+<input id="sp-genre" name="genre" placeholder="Ej. Ciencia ficción"/>
+</div>
+<div class="field">
+<label for="sp-seasons">Temporadas</label>
+<input id="sp-seasons" min="0" name="seasons" placeholder="Ej. 3" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="sp-episodes">Capítulos</label>
+<input id="sp-episodes" min="0" name="episodes" placeholder="Ej. 24" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="sp-duration">Duración Cap.</label>
+<input id="sp-duration" name="duration" placeholder="Ej. 45 min/ep"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sp-synopsis">Sinopsis</label>
+<textarea id="sp-synopsis" name="synopsis" placeholder="Sinopsis..."></textarea>
+</div>
+</div>
+
+
+<div class="personalFields" data-personal-fields>
+<div class="personalFieldsHead">Organización personal</div>
+<div class="field">
+<label for="sp-priority">Prioridad</label>
+<select id="sp-priority" name="priority">
+<option value="">Sin prioridad</option>
+<option value="alta">Alta</option>
+<option value="media">Media</option>
+<option value="baja">Baja</option>
+</select>
+</div>
+<div class="field favoriteField">
+<label>Favorito</label>
+<label class="switchRow" for="sp-favorite">
+<input id="sp-favorite" name="favorite" type="checkbox" value="1"/>
+<span>Marcar como favorito</span>
+</label>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sp-tags">Etiquetas personales</label>
+<input id="sp-tags" name="tags" placeholder="Ej. finde, Laura, imprescindible"/>
+<div class="fieldHint">Sepáralas con comas.</div>
+</div>
+<div class="field">
+<label for="sp-planned-date">Fecha prevista</label>
+<input id="sp-planned-date" name="plannedDate" type="date"/>
+</div>
+
+<div class="field">
+<label for="sp-current-season">Temporada actual</label>
+<select id="sp-current-season" name="currentSeason">
+<option value="">Sin seleccionar</option>
+</select>
+</div>
+<div class="field">
+<label for="sp-current-episode">Capítulo actual</label>
+<select id="sp-current-episode" name="currentEpisode" disabled>
+<option value="">Sin seleccionar</option>
+</select>
+</div>
+<div class="seasonEpisodeHint" data-season-episode-hint data-state="empty" style="grid-column:1/-1;">
+Indica las temporadas y su distribución, o selecciona la serie desde TMDb.
+</div>
+<div class="field">
+<label for="sp-episodes-per-season">Capítulos por temporada</label>
+<input id="sp-episodes-per-season" name="episodesPerSeason" inputmode="numeric" placeholder="Ej. 10"/>
+<div class="fieldHint">Opcional. Permite cambiar de temporada automáticamente.</div>
+</div>
+<div class="field">
+<label for="sp-episodes-by-season">Distribución por temporadas</label>
+<input id="sp-episodes-by-season" name="episodesBySeason" placeholder="Ej. 12, 8, 10, 6"/>
+<div class="fieldHint">Opcional y prioritario. Escribe los capítulos de cada temporada separados por comas.</div>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sp-private-note">Nota privada</label>
+<textarea id="sp-private-note" name="privateNote" placeholder="Recordatorios o comentarios personales..."></textarea>
+</div>
+</div>
+
+<div class="tmdbHiddenFields" aria-hidden="true">
+  <input name="tmdbId" type="hidden">
+  <input name="tmdbType" type="hidden">
+  <input name="year" type="hidden">
+  <input name="posterPath" type="hidden">
+  <input name="posterUrl" type="hidden">
+  <input name="backdropPath" type="hidden">
+  <input name="originalTitle" type="hidden">
+  <input name="originalLanguage" type="hidden">
+  <input name="originCountries" type="hidden">
+  <input name="spokenLanguages" type="hidden">
+  <input name="productionCompanies" type="hidden">
+  <input name="productionStatus" type="hidden">
+  <input name="tagline" type="hidden">
+  <input name="releaseDate" type="hidden">
+  <input name="lastAirDate" type="hidden">
+  <input name="adult" type="hidden">
+  <input name="inProduction" type="hidden">
+  <input name="cast" type="hidden">
+  <input name="crew" type="hidden">
+  <input name="creators" type="hidden">
+  <input name="trailer" type="hidden">
+  <input name="watchRegion" type="hidden">
+  <input name="watchProviders" type="hidden">
+  <input name="watchProvidersLink" type="hidden">
+  <input name="watchProvidersUpdatedAt" type="hidden">
+  <input name="tmdbVoteAverage" type="hidden">
+  <input name="tmdbUpdatedAt" type="hidden">
+  <input name="seasonsData" type="hidden">
+  <input name="specialsData" type="hidden">
+  <input name="tmdbStatus" type="hidden">
+  <input name="tmdbSeasonsUpdatedAt" type="hidden">
+</div>
+
+<div class="formActions">
+<div style="display:flex; gap:10px;">
+<button class="btnPrimary" type="submit">Guardar</button>
+</div>
+<div class="msg" id="msg-sp"></div>
+</div>
+</form>
+</div>
+<!-- FORM: AÑADIR PELÍCULA PENDIENTE -->
+<div class="screen" data-screen="anadir-peliculas-pendientes">
+<div class="backRow">
+<span class="pill">Formulario · Película pendiente</span>
+<button class="backBtn" data-screen="anadir-peliculas" type="button">← Volver</button>
+</div>
+<form autocomplete="off" class="formCard" id="form-peliculas-pendientes">
+
+<div class="tmdbSearch" data-tmdb-search data-tmdb-kind="peliculas">
+  <div class="tmdbSearchHead">
+    <strong>Buscar película en TMDb</strong>
+    <span>Rellena automáticamente la ficha</span>
+  </div>
+  <div class="tmdbSearchRow">
+    <input data-tmdb-query type="search" placeholder="Ej. Interstellar" aria-label="Título de la película">
+    <button class="toolBtn" data-tmdb-submit type="button">Buscar</button>
+  </div>
+  <div class="tmdbSearchMessage" data-tmdb-message aria-live="polite"></div>
+  <div class="tmdbResults" data-tmdb-results hidden></div>
+</div>
+
+<div class="formGrid">
+<div class="field">
+<label for="pp-title">Título <span class="req">*</span></label>
+<input id="pp-title" name="title" placeholder="Ej. Interstellar" required=""/>
+</div>
+<div class="field">
+<label for="pp-genre">Género</label>
+<input id="pp-genre" name="genre" placeholder="Ej. Aventura"/>
+</div>
+<div class="field">
+<label for="pp-duration">Duración</label>
+<input id="pp-duration" name="duration" placeholder="Ej. 2h 49m"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="pp-synopsis">Sinopsis</label>
+<textarea id="pp-synopsis" name="synopsis" placeholder="Sinopsis..."></textarea>
+</div>
+</div>
+
+
+<div class="personalFields" data-personal-fields>
+<div class="personalFieldsHead">Organización personal</div>
+<div class="field">
+<label for="pp-priority">Prioridad</label>
+<select id="pp-priority" name="priority">
+<option value="">Sin prioridad</option>
+<option value="alta">Alta</option>
+<option value="media">Media</option>
+<option value="baja">Baja</option>
+</select>
+</div>
+<div class="field favoriteField">
+<label>Favorito</label>
+<label class="switchRow" for="pp-favorite">
+<input id="pp-favorite" name="favorite" type="checkbox" value="1"/>
+<span>Marcar como favorito</span>
+</label>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="pp-tags">Etiquetas personales</label>
+<input id="pp-tags" name="tags" placeholder="Ej. finde, Laura, imprescindible"/>
+<div class="fieldHint">Sepáralas con comas.</div>
+</div>
+<div class="field">
+<label for="pp-planned-date">Fecha prevista</label>
+<input id="pp-planned-date" name="plannedDate" type="date"/>
+</div>
+
+<div class="field" style="grid-column:1/-1;">
+<label for="pp-private-note">Nota privada</label>
+<textarea id="pp-private-note" name="privateNote" placeholder="Recordatorios o comentarios personales..."></textarea>
+</div>
+</div>
+
+<div class="tmdbHiddenFields" aria-hidden="true">
+  <input name="tmdbId" type="hidden">
+  <input name="tmdbType" type="hidden">
+  <input name="year" type="hidden">
+  <input name="posterPath" type="hidden">
+  <input name="posterUrl" type="hidden">
+  <input name="backdropPath" type="hidden">
+  <input name="originalTitle" type="hidden">
+  <input name="originalLanguage" type="hidden">
+  <input name="originCountries" type="hidden">
+  <input name="spokenLanguages" type="hidden">
+  <input name="productionCompanies" type="hidden">
+  <input name="productionStatus" type="hidden">
+  <input name="tagline" type="hidden">
+  <input name="releaseDate" type="hidden">
+  <input name="lastAirDate" type="hidden">
+  <input name="adult" type="hidden">
+  <input name="inProduction" type="hidden">
+  <input name="cast" type="hidden">
+  <input name="crew" type="hidden">
+  <input name="creators" type="hidden">
+  <input name="trailer" type="hidden">
+  <input name="watchRegion" type="hidden">
+  <input name="watchProviders" type="hidden">
+  <input name="watchProvidersLink" type="hidden">
+  <input name="watchProvidersUpdatedAt" type="hidden">
+  <input name="tmdbVoteAverage" type="hidden">
+  <input name="tmdbUpdatedAt" type="hidden">
+</div>
+
+<div class="formActions">
+<div style="display:flex; gap:10px;">
+<button class="btnPrimary" type="submit">Guardar</button>
+</div>
+<div class="msg" id="msg-pp"></div>
+</div>
+</form>
+</div>
+<!-- FORM: AÑADIR SERIE VISTA -->
+<div class="screen" data-screen="anadir-series-vistas">
+<div class="backRow">
+<span class="pill">Formulario · Serie vista</span>
+<button class="backBtn" data-screen="anadir-series" type="button">← Volver</button>
+</div>
+<form autocomplete="off" class="formCard" id="form-series-vistas">
+
+<div class="tmdbSearch" data-tmdb-search data-tmdb-kind="series">
+  <div class="tmdbSearchHead">
+    <strong>Buscar serie en TMDb</strong>
+    <span>Rellena automáticamente la ficha</span>
+  </div>
+  <div class="tmdbSearchRow">
+    <input data-tmdb-query type="search" placeholder="Ej. Dark" aria-label="Título de la serie">
+    <button class="toolBtn" data-tmdb-submit type="button">Buscar</button>
+  </div>
+  <div class="tmdbSearchMessage" data-tmdb-message aria-live="polite"></div>
+  <div class="tmdbSeasonSummary" data-tmdb-seasons-summary hidden></div>
+  <div class="tmdbResults" data-tmdb-results hidden></div>
+</div>
+
+<div class="formGrid">
+<div class="field">
+<label for="sv-title">Título <span class="req">*</span></label>
+<input id="sv-title" name="title" placeholder="Ej. The Bear" required=""/>
+</div>
+<div class="field">
+<label for="sv-genre">Género</label>
+<input id="sv-genre" name="genre" placeholder="Ej. Drama"/>
+</div>
+<div class="field">
+<label for="sv-seasons">Temporadas</label>
+<input id="sv-seasons" min="0" name="seasons" placeholder="Ej. 2" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="sv-episodes">Capítulos</label>
+<input id="sv-episodes" min="0" name="episodes" placeholder="Ej. 18" step="1" type="number"/>
+</div>
+<div class="field">
+<label for="sv-duration">Duración Cap.</label>
+<input id="sv-duration" name="duration" placeholder="Ej. 30 min/ep"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sv-synopsis">Sinopsis</label>
+<textarea id="sv-synopsis" name="synopsis" placeholder="Sinopsis..."></textarea>
+</div>
+<input id="sv-rating-adri" name="ratingAdri" type="hidden"/>
+<input id="sv-rating-laura" name="ratingLaura" type="hidden"/>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Adri <span class="req">*</span></div>
+<div class="ratingValue" id="sv-adri-val">—</div>
+</div>
+<div aria-label="Valoración Adri" class="stars" data-out="sv-adri-val" data-target="sv-rating-adri" data-widget="rating"></div>
+</div>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Laura <span class="req">*</span></div>
+<div class="ratingValue" id="sv-laura-val">—</div>
+</div>
+<div aria-label="Valoración Laura" class="stars" data-out="sv-laura-val" data-target="sv-rating-laura" data-widget="rating"></div>
+</div>
+<div class="twoNotes">
+<div class="field">
+<label for="sv-notes-adri">Notas Adri</label>
+<textarea id="sv-notes-adri" name="notesAdri" placeholder="Notas de Adri..."></textarea>
+</div>
+<div class="field">
+<label for="sv-notes-laura">Notas Laura</label>
+<textarea id="sv-notes-laura" name="notesLaura" placeholder="Notas de Laura..."></textarea>
+</div>
+</div>
+</div>
+
+
+<div class="personalFields" data-personal-fields>
+<div class="personalFieldsHead">Organización personal</div>
+<div class="field">
+<label for="sv-priority">Prioridad</label>
+<select id="sv-priority" name="priority">
+<option value="">Sin prioridad</option>
+<option value="alta">Alta</option>
+<option value="media">Media</option>
+<option value="baja">Baja</option>
+</select>
+</div>
+<div class="field favoriteField">
+<label>Favorito</label>
+<label class="switchRow" for="sv-favorite">
+<input id="sv-favorite" name="favorite" type="checkbox" value="1"/>
+<span>Marcar como favorito</span>
+</label>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sv-tags">Etiquetas personales</label>
+<input id="sv-tags" name="tags" placeholder="Ej. finde, Laura, imprescindible"/>
+<div class="fieldHint">Sepáralas con comas.</div>
+</div>
+<div class="field">
+<label for="sv-planned-date">Fecha prevista</label>
+<input id="sv-planned-date" name="plannedDate" type="date"/>
+</div>
+
+<div class="field">
+<label for="sv-current-season">Temporada actual</label>
+<select id="sv-current-season" name="currentSeason">
+<option value="">Sin seleccionar</option>
+</select>
+</div>
+<div class="field">
+<label for="sv-current-episode">Capítulo actual</label>
+<select id="sv-current-episode" name="currentEpisode" disabled>
+<option value="">Sin seleccionar</option>
+</select>
+</div>
+<div class="seasonEpisodeHint" data-season-episode-hint data-state="empty" style="grid-column:1/-1;">
+Indica las temporadas y su distribución, o selecciona la serie desde TMDb.
+</div>
+<div class="field">
+<label for="sv-episodes-per-season">Capítulos por temporada</label>
+<input id="sv-episodes-per-season" name="episodesPerSeason" inputmode="numeric" placeholder="Ej. 10"/>
+<div class="fieldHint">Opcional. Permite cambiar de temporada automáticamente.</div>
+</div>
+<div class="field">
+<label for="sv-episodes-by-season">Distribución por temporadas</label>
+<input id="sv-episodes-by-season" name="episodesBySeason" placeholder="Ej. 12, 8, 10, 6"/>
+<div class="fieldHint">Opcional y prioritario. Escribe los capítulos de cada temporada separados por comas.</div>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="sv-private-note">Nota privada</label>
+<textarea id="sv-private-note" name="privateNote" placeholder="Recordatorios o comentarios personales..."></textarea>
+</div>
+</div>
+
+<div class="tmdbHiddenFields" aria-hidden="true">
+  <input name="tmdbId" type="hidden">
+  <input name="tmdbType" type="hidden">
+  <input name="year" type="hidden">
+  <input name="posterPath" type="hidden">
+  <input name="posterUrl" type="hidden">
+  <input name="backdropPath" type="hidden">
+  <input name="originalTitle" type="hidden">
+  <input name="originalLanguage" type="hidden">
+  <input name="originCountries" type="hidden">
+  <input name="spokenLanguages" type="hidden">
+  <input name="productionCompanies" type="hidden">
+  <input name="productionStatus" type="hidden">
+  <input name="tagline" type="hidden">
+  <input name="releaseDate" type="hidden">
+  <input name="lastAirDate" type="hidden">
+  <input name="adult" type="hidden">
+  <input name="inProduction" type="hidden">
+  <input name="cast" type="hidden">
+  <input name="crew" type="hidden">
+  <input name="creators" type="hidden">
+  <input name="trailer" type="hidden">
+  <input name="watchRegion" type="hidden">
+  <input name="watchProviders" type="hidden">
+  <input name="watchProvidersLink" type="hidden">
+  <input name="watchProvidersUpdatedAt" type="hidden">
+  <input name="tmdbVoteAverage" type="hidden">
+  <input name="tmdbUpdatedAt" type="hidden">
+  <input name="seasonsData" type="hidden">
+  <input name="specialsData" type="hidden">
+  <input name="tmdbStatus" type="hidden">
+  <input name="tmdbSeasonsUpdatedAt" type="hidden">
+</div>
+
+<div class="formActions">
+<div style="display:flex; gap:10px;">
+<button class="btnPrimary" type="submit">Guardar</button>
+</div>
+<div class="msg" id="msg-sv"></div>
+</div>
+</form>
+</div>
+<!-- FORM: AÑADIR PELÍCULA VISTA -->
+<div class="screen" data-screen="anadir-peliculas-vistas">
+<div class="backRow">
+<span class="pill">Formulario · Película vista</span>
+<button class="backBtn" data-screen="anadir-peliculas" type="button">← Volver</button>
+</div>
+<form autocomplete="off" class="formCard" id="form-peliculas-vistas">
+
+<div class="tmdbSearch" data-tmdb-search data-tmdb-kind="peliculas">
+  <div class="tmdbSearchHead">
+    <strong>Buscar película en TMDb</strong>
+    <span>Rellena automáticamente la ficha</span>
+  </div>
+  <div class="tmdbSearchRow">
+    <input data-tmdb-query type="search" placeholder="Ej. Interstellar" aria-label="Título de la película">
+    <button class="toolBtn" data-tmdb-submit type="button">Buscar</button>
+  </div>
+  <div class="tmdbSearchMessage" data-tmdb-message aria-live="polite"></div>
+  <div class="tmdbResults" data-tmdb-results hidden></div>
+</div>
+
+<div class="formGrid">
+<div class="field">
+<label for="pv-title">Título <span class="req">*</span></label>
+<input id="pv-title" name="title" placeholder="Ej. Whiplash" required=""/>
+</div>
+<div class="field">
+<label for="pv-genre">Género</label>
+<input id="pv-genre" name="genre" placeholder="Ej. Thriller"/>
+</div>
+<div class="field">
+<label for="pv-duration">Duración</label>
+<input id="pv-duration" name="duration" placeholder="Ej. 1h 46m"/>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="pv-synopsis">Sinopsis</label>
+<textarea id="pv-synopsis" name="synopsis" placeholder="Sinopsis..."></textarea>
+</div>
+<input id="pv-rating-adri" name="ratingAdri" type="hidden"/>
+<input id="pv-rating-laura" name="ratingLaura" type="hidden"/>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Adri <span class="req">*</span></div>
+<div class="ratingValue" id="pv-adri-val">—</div>
+</div>
+<div aria-label="Valoración Adri" class="stars" data-out="pv-adri-val" data-target="pv-rating-adri" data-widget="rating"></div>
+</div>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Laura <span class="req">*</span></div>
+<div class="ratingValue" id="pv-laura-val">—</div>
+</div>
+<div aria-label="Valoración Laura" class="stars" data-out="pv-laura-val" data-target="pv-rating-laura" data-widget="rating"></div>
+</div>
+<div class="twoNotes">
+<div class="field">
+<label for="pv-notes-adri">Notas Adri</label>
+<textarea id="pv-notes-adri" name="notesAdri" placeholder="Notas de Adri..."></textarea>
+</div>
+<div class="field">
+<label for="pv-notes-laura">Notas Laura</label>
+<textarea id="pv-notes-laura" name="notesLaura" placeholder="Notas de Laura..."></textarea>
+</div>
+</div>
+</div>
+
+
+<div class="personalFields" data-personal-fields>
+<div class="personalFieldsHead">Organización personal</div>
+<div class="field">
+<label for="pv-priority">Prioridad</label>
+<select id="pv-priority" name="priority">
+<option value="">Sin prioridad</option>
+<option value="alta">Alta</option>
+<option value="media">Media</option>
+<option value="baja">Baja</option>
+</select>
+</div>
+<div class="field favoriteField">
+<label>Favorito</label>
+<label class="switchRow" for="pv-favorite">
+<input id="pv-favorite" name="favorite" type="checkbox" value="1"/>
+<span>Marcar como favorito</span>
+</label>
+</div>
+<div class="field" style="grid-column:1/-1;">
+<label for="pv-tags">Etiquetas personales</label>
+<input id="pv-tags" name="tags" placeholder="Ej. finde, Laura, imprescindible"/>
+<div class="fieldHint">Sepáralas con comas.</div>
+</div>
+<div class="field">
+<label for="pv-planned-date">Fecha prevista</label>
+<input id="pv-planned-date" name="plannedDate" type="date"/>
+</div>
+
+<div class="field" style="grid-column:1/-1;">
+<label for="pv-private-note">Nota privada</label>
+<textarea id="pv-private-note" name="privateNote" placeholder="Recordatorios o comentarios personales..."></textarea>
+</div>
+</div>
+
+<div class="tmdbHiddenFields" aria-hidden="true">
+  <input name="tmdbId" type="hidden">
+  <input name="tmdbType" type="hidden">
+  <input name="year" type="hidden">
+  <input name="posterPath" type="hidden">
+  <input name="posterUrl" type="hidden">
+  <input name="backdropPath" type="hidden">
+  <input name="originalTitle" type="hidden">
+  <input name="originalLanguage" type="hidden">
+  <input name="originCountries" type="hidden">
+  <input name="spokenLanguages" type="hidden">
+  <input name="productionCompanies" type="hidden">
+  <input name="productionStatus" type="hidden">
+  <input name="tagline" type="hidden">
+  <input name="releaseDate" type="hidden">
+  <input name="lastAirDate" type="hidden">
+  <input name="adult" type="hidden">
+  <input name="inProduction" type="hidden">
+  <input name="cast" type="hidden">
+  <input name="crew" type="hidden">
+  <input name="creators" type="hidden">
+  <input name="trailer" type="hidden">
+  <input name="watchRegion" type="hidden">
+  <input name="watchProviders" type="hidden">
+  <input name="watchProvidersLink" type="hidden">
+  <input name="watchProvidersUpdatedAt" type="hidden">
+  <input name="tmdbVoteAverage" type="hidden">
+  <input name="tmdbUpdatedAt" type="hidden">
+</div>
+
+<div class="formActions">
+<div style="display:flex; gap:10px;">
+<button class="btnPrimary" type="submit">Guardar</button>
+</div>
+<div class="msg" id="msg-pv"></div>
+</div>
+</form>
+</div>
+</section>
+</main>
+</div>
+</div>
+<!-- Modal detalle (pendientes + vistas) -->
+<!-- ===== Sprint 12.0 · Ficha detallada ===== -->
+<section class="screen detailViewScreen" data-screen="ficha-detallada" id="detailViewScreen" aria-labelledby="detailViewTitle">
+  <div class="detailViewTopbar">
+    <button class="backBtn detailViewBack" id="detailViewBack" type="button" aria-label="Volver">‹</button>
+    <div>
+      <div class="pill">Ficha completa</div>
+      <h1 id="detailViewTitle">Información detallada</h1>
+    </div>
+  </div>
+  <div id="detailViewContent" class="detailViewContent"></div>
+</section>
+
+<!-- Sprint 15.1 · Vinculación externa de ficha de doblaje -->
+<div aria-hidden="true" class="modalOverlay" id="dubbingLinkOverlay">
+  <div aria-labelledby="dubbingLinkTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+    <div class="modalHeader">
+      <div class="modalTitle" id="dubbingLinkTitle">Vincular ficha de doblaje</div>
+      <button aria-label="Cerrar" class="modalClose" id="dubbingLinkClose" type="button">✕</button>
+    </div>
+    <div class="modalBody">
+      <div id="dubbingLinkEditView">
+        <label class="dubbingLinkField" for="dubbingLinkInput">
+          <span>URL de la ficha en eldoblaje.com</span>
+          <input id="dubbingLinkInput" type="url" inputmode="url" autocomplete="url" placeholder="https://www.eldoblaje.com/datos/FichaPelicula.asp?id=…">
+        </label>
+        <p class="dubbingLinkHelp">Pega la dirección exacta de la ficha correcta. Solo se admiten enlaces HTTPS de eldoblaje.com.</p>
+        <p class="dubbingLinkError" id="dubbingLinkError" role="alert" aria-live="polite"></p>
+      </div>
+      <div id="dubbingLinkDeleteView" hidden>
+        <strong>¿Eliminar el enlace de doblaje vinculado?</strong>
+        <p class="dubbingLinkHelp">Solo se eliminará el enlace. La película o serie y el resto de sus datos permanecerán intactos.</p>
+      </div>
+    </div>
+    <div class="modalActions">
+      <button class="modalBtn" id="dubbingLinkCancel" type="button">Cancelar</button>
+      <button class="modalBtn modalBtnSeen" id="dubbingLinkSave" type="button">Guardar enlace</button>
+      <button class="modalBtn modalBtnDelete" id="dubbingLinkDeleteConfirm" type="button" hidden>Eliminar enlace</button>
+    </div>
+  </div>
+</div>
+
+<div aria-hidden="true" class="modalOverlay" id="detailOverlay">
+<div aria-labelledby="detailTitle" aria-modal="true" class="modalCard" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="detailTitle">Detalle</div>
+<button aria-label="Cerrar" class="modalClose" id="detailClose" type="button">✕</button>
+</div>
+<div class="modalBody" id="detailBody"></div>
+<div class="modalActions">
+<button class="modalBtn modalBtnFull" id="detailFull" type="button">Ficha completa</button>
+<button class="modalBtn modalBtnEdit" id="detailEdit" type="button">Editar</button>
+<button class="modalBtn" id="detailHistory" type="button">👁️ Historial</button>
+<button class="modalBtn modalBtnSeen" id="detailSeen" type="button">Visto</button>
+<button class="modalBtn modalBtnDelete" id="detailDelete" type="button">Eliminar</button>
+</div>
+</div>
+</div>
+<!-- Modal confirmación eliminar -->
+<div aria-hidden="true" class="modalOverlay" id="confirmOverlay">
+<div aria-labelledby="confirmTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="confirmTitle">Confirmar eliminación</div>
+<button aria-label="Cerrar" class="modalClose" id="confirmClose" type="button">✕</button>
+</div>
+<div class="modalBody" id="confirmBody">
+<div style="font-weight:800; margin-bottom:8px;">¿Seguro que quieres eliminarlo?</div>
+<div style="color: rgba(233,237,255,.78); line-height:1.4;">
+        Esta acción eliminará la película o serie <b>permanentemente</b>.
+      </div>
+</div>
+<div class="modalActions">
+<button class="modalBtn" id="confirmCancel" type="button">Cancelar</button>
+<button class="modalBtn modalBtnDelete" id="confirmDelete" type="button">Eliminar</button>
+</div>
+</div>
+</div>
+<!-- Mini modal: Marcar como visto -->
+<div aria-hidden="true" class="modalOverlay" id="seenOverlay">
+<div aria-labelledby="seenTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="seenTitle">Marcar como visto</div>
+<button aria-label="Cerrar" class="modalClose" id="seenClose" type="button">✕</button>
+</div>
+<div class="modalBody">
+<form id="seenForm">
+<input id="seen-rating-adri" type="hidden"/>
+<input id="seen-rating-laura" type="hidden"/>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Adri <span class="req">*</span></div>
+<div class="ratingValue" id="seen-adri-val">—</div>
+</div>
+<div aria-label="Valoración Adri" class="stars" data-out="seen-adri-val" data-target="seen-rating-adri" data-widget="rating"></div>
+</div>
+<div class="ratingBlock">
+<div class="ratingHead">
+<div class="ratingName">Valoración Laura <span class="req">*</span></div>
+<div class="ratingValue" id="seen-laura-val">—</div>
+</div>
+<div aria-label="Valoración Laura" class="stars" data-out="seen-laura-val" data-target="seen-rating-laura" data-widget="rating"></div>
+</div>
+<div class="twoNotes" style="margin-top:12px;">
+<div class="field">
+<label for="seen-notes-adri">Notas Adri</label>
+<textarea id="seen-notes-adri" placeholder="Notas de Adri..."></textarea>
+</div>
+<div class="field">
+<label for="seen-notes-laura">Notas Laura</label>
+<textarea id="seen-notes-laura" placeholder="Notas de Laura..."></textarea>
+</div>
+</div>
+<div class="msg" id="msg-seen" style="margin-top:12px;"></div>
+</form>
+</div>
+<div class="modalActions">
+<button class="modalBtn" id="seenSave" type="button">Guardar</button>
+</div>
+</div>
+</div>
+<!-- Modal historial (watchLog) -->
+<div aria-hidden="true" class="modalOverlay" id="historyOverlay">
+<div aria-labelledby="historyTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="historyTitle">Historial de visionados</div>
+<button aria-label="Cerrar" class="modalClose" id="historyClose" type="button">✕</button>
+</div>
+<div class="modalBody" id="historyBody"></div>
+<div class="modalActions">
+<button class="modalBtn" id="historyOk" type="button">OK</button>
+</div>
+</div>
+</div>
+<!-- Toast éxito -->
+<div aria-live="polite" class="toast" id="toast"></div>
+<!-- ===== Modal Ordenar ===== -->
+<div aria-hidden="true" class="modalOverlay" id="sortOverlay">
+<div aria-labelledby="sortTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="sortTitle">Ordenar</div>
+<button aria-label="Cerrar" class="modalClose" id="sortClose" type="button">✕</button>
+</div>
+<div class="modalBody">
+<div class="optList" id="sortOptions">
+<label class="optRow">
+<input name="sortMode" type="radio" value="az"/>
+<span>Alfabético (A → Z)</span>
+</label>
+<label class="optRow">
+<input name="sortMode" type="radio" value="za"/>
+<span>Alfabético (Z → A)</span>
+</label>
+<label class="optRow sortRatingOption" data-sort-only="vistas" style="display:none;">
+<input name="sortMode" type="radio" value="rating_desc"/>
+<span>Mayor puntuación</span>
+</label>
+<label class="optRow sortRatingOption" data-sort-only="vistas" style="display:none;">
+<input name="sortMode" type="radio" value="rating_asc"/>
+<span>Menor puntuación</span>
+</label>
+<label class="optRow">
+<input name="sortMode" type="radio" value="recent"/>
+<span>Más recientes</span>
+</label>
+<label class="optRow">
+<input name="sortMode" type="radio" value="old"/>
+<span>Más antiguos</span>
+</label>
+<label class="optRow sortPendingOption" data-sort-only="pendientes" style="display:none;">
+<input name="sortMode" type="radio" value="planned"/>
+<span>Fecha prevista más próxima</span>
+</label>
+<label class="optRow sortPendingOption" data-sort-only="pendientes" style="display:none;">
+<input name="sortMode" type="radio" value="priority"/>
+<span>Prioridad personal</span>
+</label>
+<label class="optRow sortSeriesPendingOption" data-sort-only="series-pendientes" style="display:none;">
+<input name="sortMode" type="radio" value="progress"/>
+<span>Progreso de la serie</span>
+</label>
+</div>
+</div>
+<div class="modalActions">
+<button class="modalBtn" id="sortCancel" type="button">Cancelar</button>
+<button class="modalBtn modalBtnSeen" id="sortApply" type="button">Aplicar</button>
+</div>
+</div>
+</div>
+<!-- ===== Modal Filtrar ===== -->
+<div aria-hidden="true" class="modalOverlay" id="filterOverlay">
+<div aria-labelledby="filterTitle" aria-modal="true" class="modalCard modalCardSm" role="dialog">
+<div class="modalHeader">
+<div class="modalTitle" id="filterTitle">Filtrar</div>
+<button aria-label="Cerrar" class="modalClose" id="filterClose" type="button">✕</button>
+</div>
+<div class="modalBody">
+<div class="filterSection">
+<div class="filterH">Plataforma</div>
+<div class="optList" id="filterPlatforms"></div>
+</div>
+<div class="filterSection" style="margin-top:14px;">
+<div class="filterH">Género</div>
+<div class="optList" id="filterGenres"></div>
+</div>
+<div class="filterSection" style="margin-top:14px;">
+<div class="filterH">Prioridad</div>
+<div class="optList" id="filterPriorities"></div>
+</div>
+<div class="filterSection" style="margin-top:14px;">
+<div class="filterH">Etiquetas personales</div>
+<div class="optList" id="filterTags"></div>
+</div>
+<div class="filterSection" style="margin-top:14px;">
+<label class="optRow">
+<input id="filterMyPlatforms" type="checkbox" value="1"/>
+<span>Disponible en mis plataformas</span>
+</label>
+</div>
+<div class="filterSection" style="margin-top:14px;">
+<label class="optRow">
+<input id="filterFavorites" type="checkbox" value="1"/>
+<span>Solo favoritos</span>
+</label>
+</div>
+</div>
+<div class="modalActions">
+<button class="modalBtn" id="filterClear" type="button">Limpiar</button>
+<button class="modalBtn" id="filterCancel" type="button">Cancelar</button>
+<button class="modalBtn modalBtnSeen" id="filterApply" type="button">Aplicar</button>
+</div>
+</div>
+</div>
+<script src="js/core/navigation.js"></script><script src="js/core/storage.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/data/genre-normalizer.js"></script>
+<script src="js/data/library-model.js"></script>
+<script src="js/data/library-repository.js"></script>
+<script src="js/data/library-service.js"></script>
+<script src="js/data/progress-service.js"></script>
+<script src="js/data/statistics-service.js"></script>
+<script src="js/data/person-insights-service.js"></script>
+<script src="js/data/tmdb-client.js"></script>
+<script src="js/data/tmdb-season-service.js"></script>
+<script src="js/data/platform-match.js"></script>
+<script src="js/data/user-platforms-repository.js"></script>
+<script src="js/features/history-filters-search.js"></script>
+<script src="js/features/season-episode-selectors.js"></script>
+<script src="js/features/smart-collections.js"></script>
+<script src="js/features/tmdb-ui.js"></script>
+<script src="js/features/user-platforms-ui.js"></script>
+<script src="js/features/statistics-ui.js"></script>
+<script src="js/features/detail-view.js"></script>
+<script src="js/ui/render.js"></script><script src="js/ui/modals.js"></script><script src="js/features/progress-ui.js"></script><script src="js/features/ratings-forms.js"></script><script src="js/app.js"></script></body>
+</html>
