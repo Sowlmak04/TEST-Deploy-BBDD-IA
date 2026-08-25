@@ -413,9 +413,9 @@ function renderLibraryState(state) {
 
 function renderLibraryProfile(profile) {
   const items = [
-    [profile?.favorites || 0, "Favoritos"],
-    [profile?.ownedPhysical || 0, "Colección propia"],
-    [profile?.availableForMe || 0, "Disponibles para ti"]
+    [profile?.favorites || 0, "Favoritos", "favorites"],
+    [profile?.ownedPhysical || 0, "Colección propia", "owned-physical"],
+    [profile?.availableForMe || 0, "Disponibles para ti", "available-for-me"]
   ];
 
   return `
@@ -427,11 +427,17 @@ function renderLibraryProfile(profile) {
         </div>
       </div>
       <div class="statsLibraryProfile">
-        ${items.map(([value, label]) => `
-          <article class="statsLibraryProfileItem">
+        ${items.map(([value, label, collectionId]) => `
+          <button
+            class="statsLibraryProfileItem statsLibraryProfileAction"
+            type="button"
+            data-stats-smart-collection="${escapeHtml(collectionId)}"
+            ${Number(value) <= 0 ? "disabled" : ""}
+          >
             <strong>${escapeHtml(value)}</strong>
             <span>${escapeHtml(label)}</span>
-          </article>
+            <small>${Number(value) > 0 ? "Ver resultados ›" : "Sin resultados"}</small>
+          </button>
         `).join("")}
       </div>
     </section>
@@ -655,8 +661,9 @@ function renderRatingDistribution(ratings) {
 
 function renderAffinityList(title, items, emptyMessage, listId) {
   const safeItems = Array.isArray(items) ? items : [];
-  const initial = safeItems.slice(0, 5);
-  const extra = safeItems.slice(5);
+  const visibleItems = safeItems.slice(0, 10);
+  const initial = visibleItems.slice(0, 5);
+  const extra = visibleItems.slice(5, 10);
 
   const rows = list => list.map(item => `
     <div class="statsAffinityRow">
@@ -677,7 +684,7 @@ function renderAffinityList(title, items, emptyMessage, listId) {
           ${extra.length ? `
             <details class="statsRankingMore">
               <summary>
-                <span class="statsRankingShowMore">Ver todos (${safeItems.length})</span>
+                <span class="statsRankingShowMore">Ver más</span>
                 <span class="statsRankingShowLess">Ver menos</span>
               </summary>
               <div class="statsAffinityExtra">${rows(extra)}</div>
@@ -1008,6 +1015,15 @@ document.addEventListener("click", event => {
   if (emptyAction) {
     setMainTab("anadir");
     showScreen("anadir-home");
+    return;
+  }
+
+  const profileCard = event.target.closest("[data-stats-smart-collection]");
+  if (profileCard && !profileCard.disabled) {
+    const collectionId = profileCard.dataset.statsSmartCollection;
+    if (collectionId && typeof window.openSmartCollectionFromSummary === "function") {
+      window.openSmartCollectionFromSummary(collectionId);
+    }
     return;
   }
 
